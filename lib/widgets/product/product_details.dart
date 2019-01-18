@@ -193,31 +193,28 @@ class ProductDetails extends StatelessWidget {
         color: _cardColor,
         padding: EdgeInsets.all(20.0),
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             Container(
               height: 400.0,
               width: 400.0,
             ),
             Positioned(
-              top: 25.0,
-              left: 25.0,
               child: Container(
-                height: 350.0,
-                width: 350.0,
+                height: 400.0,
+                width: 400.0,
                 decoration: BoxDecoration(
                     color: _containerColor1,
                     borderRadius: BorderRadius.circular(125.0)),
               ),
             ),
             Positioned(
-              top: 75.0,
-              left: 75.0,
               child: Container(
-                height: 250.0,
-                width: 250.0,
+                height: 350.0,
+                width: 350.0,
                 decoration: BoxDecoration(
                     color: _containerColor2,
-                    borderRadius: BorderRadius.circular(125.0)),
+                    borderRadius: BorderRadius.circular(175.0)),
               ),
             ),
             Column(

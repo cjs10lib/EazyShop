@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:eazy_shop/widgets/products/product_categories.dart';
 import 'package:eazy_shop/widgets/products/products.dart';
+import 'package:eazy_shop/widgets/shopping_cart/shopping_cart_item.dart';
 import 'package:flutter/material.dart';
 
 class ProductsPage extends StatelessWidget {
   final _controlColor = Color.fromRGBO(47, 49, 54, 1);
   final _textColor = Colors.grey;
+  final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
@@ -100,10 +104,154 @@ class ProductsPage extends StatelessWidget {
     );
   }
 
+  Widget _buildShoppingCartFAB({@required BuildContext context}) {
+    return FloatingActionButton(
+        isExtended: true,
+        backgroundColor: Theme.of(context).backgroundColor,
+        child: Icon(
+          Icons.shopping_basket,
+          size: 40.0,
+          color: Theme.of(context).primaryColor,
+        ),
+        onPressed: () {
+          _openShoppingCartBottomSheet(context: context);
+          // Navigator.of(context).pushNamed('/shopping-cart');
+        });
+  }
+
+  Widget _buildShoppingCartBottomSheetHeader({@required BuildContext context}) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(85.0),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0, right: 20.0, left: 20.0),
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: 100.0,
+              height: 5.0,
+              color: _textColor,
+            ),
+            SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'My Cart',
+                  style: TextStyle(
+                      color: _textColor,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w900),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                  decoration: BoxDecoration(
+                      color: _cardColor,
+                      borderRadius: BorderRadius.circular(20.0)),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.shopping_basket,
+                        size: 30.0,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      SizedBox(width: 7.0),
+                      Text(
+                        '\$5000.00',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10.0)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future _openShoppingCartBottomSheet({@required BuildContext context}) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 600.0,
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(50.0),
+              //     topRight: Radius.circular(50.0)),
+            ),
+            child: Container(
+                // padding: EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      centerTitle: false,
+                      pinned: true,
+                      floating: true,
+                      snap: true,
+                      automaticallyImplyLeading: false,
+                      expandedHeight: 0.0,
+                      backgroundColor: Theme.of(context).backgroundColor,
+                      // title: _buildSliverTitle(context),
+                      // leading: _buildDrawerToggle(),
+                      // actions: <Widget>[
+                      //   _buildFavoriteToggle(),
+                      // ],
+                      bottom:
+                          _buildShoppingCartBottomSheetHeader(context: context),
+                    ),
+                    SliverList(
+                      delegate: SliverChildListDelegate([
+                        // SizedBox(height: 30.0),
+                        ShoppingCartItem(
+                          productIndex: 5,
+                        ),
+                        ShoppingCartItem(
+                          productIndex: 7,
+                        ),
+                        ShoppingCartItem(
+                          productIndex: 9,
+                        )
+                      ]),
+                    )
+                  ],
+                )
+
+                // ListView(
+                //   children: <Widget>[
+                //     _buildShoppingCartBottomSheetHeader(context: context),
+                //     SizedBox(height: 30.0),
+                //     ShoppingCartItem(
+                //       productIndex: 5,
+                //     ),
+                //     ShoppingCartItem(
+                //       productIndex: 7,
+                //     ),
+                //     ShoppingCartItem(
+                //       productIndex: 9,
+                //     )
+                //   ],
+                // ),
+                ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
+        floatingActionButton: _buildShoppingCartFAB(context: context),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
