@@ -1,6 +1,6 @@
+import 'package:eazy_shop/pages/check_out/check_out.dart';
 import 'package:eazy_shop/pages/product/product_page.dart';
 import 'package:eazy_shop/pages/products/products_page.dart';
-import 'package:eazy_shop/pages/shopping_cart/shopping_cart_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/': (BuildContext context) => ProductsPage(),
         '/product': (BuildContext context) => ProductPage(),
-        '/shopping-cart': (BuildContext context) => ShoppingCartPage(),
+        '/checkout': (BuildContext context) => CheckOutPage(),
       },
     );
   }

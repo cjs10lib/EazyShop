@@ -142,28 +142,43 @@ class ProductsPage extends StatelessWidget {
                       fontSize: 30.0,
                       fontWeight: FontWeight.w900),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-                  decoration: BoxDecoration(
-                      color: _cardColor,
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.shopping_basket,
-                        size: 30.0,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      SizedBox(width: 7.0),
-                      Text(
-                        '\$5000.00',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/checkout');
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                    decoration: BoxDecoration(
+                        color: _cardColor,
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.shopping_basket,
+                          size: 30.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        SizedBox(width: 7.0),
+                        Text(
+                          '\$5000.00',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 5.0),
+                        Text(
+                          '[10 Items]',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -183,66 +198,40 @@ class ProductsPage extends StatelessWidget {
             height: 600.0,
             decoration: BoxDecoration(
               color: Theme.of(context).backgroundColor,
-              // borderRadius: BorderRadius.only(
-              //     topLeft: Radius.circular(50.0),
-              //     topRight: Radius.circular(50.0)),
             ),
             child: Container(
-                // padding: EdgeInsets.all(20.0),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      centerTitle: false,
-                      pinned: true,
-                      floating: true,
-                      snap: true,
-                      automaticallyImplyLeading: false,
-                      expandedHeight: 0.0,
-                      backgroundColor: Theme.of(context).backgroundColor,
-                      // title: _buildSliverTitle(context),
-                      // leading: _buildDrawerToggle(),
-                      // actions: <Widget>[
-                      //   _buildFavoriteToggle(),
-                      // ],
-                      bottom:
-                          _buildShoppingCartBottomSheetHeader(context: context),
-                    ),
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        // SizedBox(height: 30.0),
-                        ShoppingCartItem(
-                          productIndex: 5,
-                        ),
-                        ShoppingCartItem(
-                          productIndex: 7,
-                        ),
-                        ShoppingCartItem(
-                          productIndex: 9,
-                        )
-                      ]),
-                    )
-                  ],
-                )
-
-                // ListView(
-                //   children: <Widget>[
-                //     _buildShoppingCartBottomSheetHeader(context: context),
-                //     SizedBox(height: 30.0),
-                //     ShoppingCartItem(
-                //       productIndex: 5,
-                //     ),
-                //     ShoppingCartItem(
-                //       productIndex: 7,
-                //     ),
-                //     ShoppingCartItem(
-                //       productIndex: 9,
-                //     )
-                //   ],
-                // ),
-                ),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    centerTitle: false,
+                    pinned: true,
+                    floating: true,
+                    snap: true,
+                    automaticallyImplyLeading: false,
+                    expandedHeight: 0.0,
+                    backgroundColor: Theme.of(context).backgroundColor,
+                    bottom:
+                        _buildShoppingCartBottomSheetHeader(context: context),
+                  ),
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      ShoppingCartItem(
+                        productIndex: 5,
+                      ),
+                      ShoppingCartItem(
+                        productIndex: 7,
+                      ),
+                      ShoppingCartItem(
+                        productIndex: 9,
+                      )
+                    ]),
+                  )
+                ],
+              ),
+            ),
           );
         });
   }

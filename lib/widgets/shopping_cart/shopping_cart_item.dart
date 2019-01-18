@@ -2,9 +2,124 @@ import 'package:flutter/material.dart';
 
 class ShoppingCartItem extends StatelessWidget {
   final int productIndex;
+  final bool showQuantityControl;
 
-  const ShoppingCartItem({Key key, @required this.productIndex})
+  const ShoppingCartItem(
+      {Key key, @required this.productIndex, this.showQuantityControl = false})
       : super(key: key);
+
+  Widget _buildViewProductControl(
+      {@required BuildContext context,
+      @required Color backgroundColor,
+      @required Color textColor}) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed('/product');
+      },
+      child: Material(
+        elevation: 1.0,
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20.0),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(20.0)),
+          child: Text(
+            'View Product',
+            style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductQTYControl(
+      {@required BuildContext context,
+      @required Color backgroundColor,
+      @required Color textColor}) {
+    return Row(
+      children: <Widget>[
+        InkWell(
+          onTap: () {},
+          child: Material(
+            elevation: 1.0,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                bottomLeft: Radius.circular(20.0)),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    bottomLeft: Radius.circular(20.0)),
+              ),
+              child: Text(
+                '-',
+                style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+        Material(
+          elevation: 1.0,
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(color: backgroundColor),
+            child: Text(
+              '10',
+              style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: () {},
+          child: Material(
+            elevation: 1.0,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20.0),
+                bottomRight: Radius.circular(20.0)),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0)),
+              ),
+              child: Text(
+                '+',
+                style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildShoppingCartItemControl(
+      {@required BuildContext context,
+      @required Color backgroundColor,
+      @required Color textColor}) {
+    return showQuantityControl
+        ? _buildProductQTYControl(
+            context: context,
+            backgroundColor: backgroundColor,
+            textColor: textColor)
+        : _buildViewProductControl(
+            context: context,
+            backgroundColor: backgroundColor,
+            textColor: textColor);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +189,7 @@ class ShoppingCartItem extends StatelessWidget {
                               width: 40.0,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color:_containerColor1,
+                                  color: _containerColor1,
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: IconButton(
                                 icon: Icon(
@@ -89,7 +204,14 @@ class ShoppingCartItem extends StatelessWidget {
                         ),
                         SizedBox(height: 10.0),
                         Text(
-                          'Spray can description fhdsghfgsdfi fgfdf fdhsdgfjsdhf',
+                          'This is a very nice material suit bla...',
+                          softWrap: true,
+                          style: TextStyle(
+                              color: _textColor, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10.0),
+                        Text(
+                          'Color: grey',
                           softWrap: true,
                           style: TextStyle(
                               color: _textColor, fontWeight: FontWeight.bold),
@@ -105,31 +227,10 @@ class ShoppingCartItem extends StatelessWidget {
                                   fontSize: 19.0,
                                   fontWeight: FontWeight.bold),
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed('/product');
-                              },
-                              child: Material(
-                                elevation: 1.0,
-                                color: Colors.transparent,
-                                borderRadius:
-                                          BorderRadius.circular(20.0),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: _containerColor2,
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
-                                  child: Text(
-                                    'View Product',
-                                    style: TextStyle(
-                                        color: _textColor,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            )
+                            _buildShoppingCartItemControl(
+                                context: context,
+                                backgroundColor: _containerColor2,
+                                textColor: _textColor)
                           ],
                         ),
                       ],
