@@ -74,8 +74,12 @@ class ProductItem extends StatelessWidget {
                               child: Container(
                                 height: 40.0,
                                 width: 40.0,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                                child: Icon(Icons.favorite, color: Colors.red,),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ],
@@ -98,19 +102,24 @@ class ProductItem extends StatelessWidget {
                                   fontSize: 19.0,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Material(
-                              elevation: 2.0,
-                              child: Container(
-                                height: 40.0,
-                                width: 120.0,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(0, 17, 34, 1)),
-                                child: Text(
-                                  'View Product',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/product');
+                              },
+                              child: Material(
+                                elevation: 2.0,
+                                child: Container(
+                                  height: 40.0,
+                                  width: 120.0,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(0, 17, 34, 1)),
+                                  child: Text(
+                                    'View Product',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                             )

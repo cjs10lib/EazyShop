@@ -87,12 +87,14 @@ class ProductsPage extends StatelessWidget {
 
   Widget _buildAppBarBottom() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(280.0),
+      preferredSize: Size.fromHeight(273.0),
       child: Column(
+        // mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ProductCategories(),
           SizedBox(height: 20.0),
-          _buildSearchTextField()
+          _buildSearchTextField(),
+          // SizedBox(height: 20.0),
         ],
       ),
     );
@@ -105,17 +107,17 @@ class ProductsPage extends StatelessWidget {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              centerTitle: true,
+              centerTitle: false,
               pinned: true,
               floating: true,
               snap: true,
-              expandedHeight: 320.0,
+              // expandedHeight: 400.0,
               backgroundColor: Theme.of(context).backgroundColor,
+              title: _buildSliverTitle(context),
               leading: _buildDrawerToggle(),
               actions: <Widget>[
                 _buildFavoriteToggle(),
               ],
-              title: _buildSliverTitle(context),
               bottom: _buildAppBarBottom(),
             ),
             SliverList(
