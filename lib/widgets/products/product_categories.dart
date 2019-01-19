@@ -9,6 +9,8 @@ class ProductCategories extends StatefulWidget {
 
 class ProductCategoriesState extends State<ProductCategories> {
   final _controlColor = Color.fromRGBO(47, 49, 54, 1);
+  final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
+  final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
   final _textColor = Colors.grey;
 
@@ -46,15 +48,49 @@ class ProductCategoriesState extends State<ProductCategories> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: 10.0),
-        Container(
-            margin: EdgeInsets.only(left: 20.0),
-            child: Text(
-              'Categories',
-              style: TextStyle(
-                  color: _textColor,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
-            )),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 20.0),
+              child: Text(
+                'Categories',
+                style: TextStyle(
+                    color: _textColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.of(context).pushNamed('/category'),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                decoration: BoxDecoration(
+                  color: _containerColor1,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0)),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.add_circle_outline,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    SizedBox(width: 5.0),
+                    Text(
+                      'Add',
+                      style: TextStyle(
+                          color: _textColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
         SizedBox(height: 10.0),
         Container(
           height: 100.0,
@@ -74,7 +110,11 @@ class ProductCategoriesState extends State<ProductCategories> {
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold),
               ),
-              Icon(Icons.arrow_drop_down, color: Colors.blueGrey, size: 30.0,)
+              Icon(
+                Icons.arrow_drop_down,
+                color: Colors.blueGrey,
+                size: 30.0,
+              )
             ],
           ),
         ),

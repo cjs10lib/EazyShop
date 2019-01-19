@@ -91,7 +91,7 @@ class ProductsPage extends StatelessWidget {
 
   Widget _buildAppBarBottom() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(273.0),
+      preferredSize: Size.fromHeight(285.0),
       child: Column(
         // mainAxisSize: MainAxisSize.min,
         children: <Widget>[
