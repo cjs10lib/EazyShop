@@ -10,6 +10,59 @@ class CategoriesPage extends StatelessWidget {
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
+  Future _buildGalleryOptionBottomSheet({@required BuildContext context}) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 160.0,
+            color: Theme.of(context).backgroundColor,
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 20.0),
+                Container(
+                  width: 100.0,
+                  height: 5.0,
+                  color: _textColor,
+                ),
+                SizedBox(height: 30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // Icon(Icons.camera,
+                    //     color: Theme.of(context).primaryColor, size: 40.0),
+                    // SizedBox(width: 10.0),
+                    Text(
+                      'Open Camera',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // Icon(Icons.image,
+                    //     color: Theme.of(context).primaryColor, size: 40.0),
+                    // SizedBox(width: 10.0),
+                    Text(
+                      'Open Gallery',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   Future _buildAddCategoryDialog({@required BuildContext context}) {
     return showDialog(
         barrierDismissible: true,
@@ -58,6 +111,8 @@ class CategoriesPage extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   print('addPhoto');
+                                  _buildGalleryOptionBottomSheet(
+                                      context: context);
                                 },
                               ))
                         ],
