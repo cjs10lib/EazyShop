@@ -100,10 +100,9 @@ class CategoriesPage extends StatelessWidget {
                                         Color(0xA0000000),
                                         BlendMode.multiply))),
                           ),
-                          Positioned(
-                              top: 20.0,
-                              right: 20.0,
-                              child: IconButton(
+                          ButtonBar(
+                            children: <Widget>[
+                              IconButton(
                                 icon: Icon(
                                   Icons.add_a_photo,
                                   color: Theme.of(context).primaryColor,
@@ -114,7 +113,19 @@ class CategoriesPage extends StatelessWidget {
                                   _buildGalleryOptionBottomSheet(
                                       context: context);
                                 },
-                              ))
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                  size: 40.0,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          )
                         ],
                       ),
                       Container(
