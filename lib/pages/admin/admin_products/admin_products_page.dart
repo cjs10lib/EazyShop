@@ -1,4 +1,4 @@
-import 'package:eazy_shop/widgets/admin/admin_product_item.dart';
+import 'package:eazy_shop/widgets/admin/admin_product/admin_product_item.dart';
 import 'package:flutter/material.dart';
 
 class AdminProductsPage extends StatefulWidget {

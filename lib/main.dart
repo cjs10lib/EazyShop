@@ -1,7 +1,7 @@
 import 'package:eazy_shop/pages/admin/admin_product_form/admin_product_form_page.dart';
 import 'package:eazy_shop/pages/admin/admin_products/admin_products_page.dart';
+import 'package:eazy_shop/pages/admin/categories/categories_page.dart';
 import 'package:eazy_shop/pages/auth/auth_page.dart';
-import 'package:eazy_shop/pages/categories/categories_page.dart';
 import 'package:eazy_shop/pages/check_out/check_out.dart';
 import 'package:eazy_shop/pages/product/product_page.dart';
 import 'package:eazy_shop/pages/products/products_page.dart';
