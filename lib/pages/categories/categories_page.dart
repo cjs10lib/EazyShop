@@ -164,37 +164,6 @@ class CategoriesPage extends StatelessWidget {
                           ),
                         ),
                       )
-                      // ButtonBar(
-                      //   alignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Container(
-                      //       height: 50.0,
-                      //       width: 100,
-                      //       color: _containerColor2,
-                      //       alignment: Alignment.center,
-                      //       child: Text(
-                      //         'Cancel',
-                      //         style: TextStyle(
-                      //             color: _textColor,
-                      //             fontSize: 18.0,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       height: 50.0,
-                      //       width: 100,
-                      //       color: Theme.of(context).primaryColor,
-                      //       alignment: Alignment.center,
-                      //       child: Text(
-                      //         'Save',
-                      //         style: TextStyle(
-                      //             color: _containerColor1,
-                      //             fontSize: 18.0,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      //     )
-                      //   ],
-                      // )
                     ],
                   ),
                 ],

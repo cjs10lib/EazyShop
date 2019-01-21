@@ -100,12 +100,13 @@ class ProductsPage extends StatelessWidget {
                         child: Icon(Icons.store_mall_directory,
                             color: Theme.of(context).primaryColor)),
                     title: Text(
-                      'Add Product',
+                      'Admin Products',
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold),
                     ),
+                    onTap: () => Navigator.of(context).pushReplacementNamed('/admin-products'),
                   ),
                   ListTile(
                     leading: CircleAvatar(
