@@ -1,3 +1,4 @@
+import 'package:eazy_shop/pages/auth/auth_page.dart';
 import 'package:eazy_shop/pages/categories/categories_page.dart';
 import 'package:eazy_shop/pages/check_out/check_out.dart';
 import 'package:eazy_shop/pages/product/product_page.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
           accentColor: Color.fromRGBO(66, 66, 80, 1)),
       // home: ProductsPage(),
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => ProductsPage(),
+        '/': (BuildContext context) => AuthPage(),
+        '/products': (BuildContext context) => ProductsPage(),
         '/category': (BuildContext context) => CategoriesPage(),
         '/product': (BuildContext context) => ProductPage(),
         '/checkout': (BuildContext context) => CheckOutPage(),
