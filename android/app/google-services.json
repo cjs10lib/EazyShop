@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "230644550024",
+    "firebase_url": "https://eazy-shop.firebaseio.com",
+    "project_id": "eazy-shop",
+    "storage_bucket": "eazy-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230644550024:android:862a06f7c12d713f",
+        "android_client_info": {
+          "package_name": "com.example.eazyshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230644550024-5k96cgc39bqk4rkannenl5atjq6gj710.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0tdZJjO3HZC3yX7JFaChvl0yW3fyF3gg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

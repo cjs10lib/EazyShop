@@ -1,73 +1,34 @@
 import 'dart:async';
 
-import 'package:eazy_shop/widgets/admin/category/category_form.dart';
 import 'package:eazy_shop/widgets/admin/category/category_item.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesPage extends StatelessWidget {
+class CategoriesPage extends StatefulWidget {
+  @override
+  CategoriesPageState createState() {
+    return new CategoriesPageState();
+  }
+}
+
+class CategoriesPageState extends State<CategoriesPage> {
   final Color _textColor = Colors.grey;
   final _controlColor = Color.fromRGBO(47, 49, 54, 1);
   final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
-  Future _buildGalleryOptionBottomSheet({@required BuildContext context}) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 160.0,
-            color: Theme.of(context).backgroundColor,
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 20.0),
-                Container(
-                  width: 100.0,
-                  height: 5.0,
-                  color: _textColor,
-                ),
-                SizedBox(height: 30.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Open Camera',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Open Gallery',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  Future _buildAddCategoryDialog({@required BuildContext context}) {
-    return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) {
-        return CategoryForm(
-            openGalleryOptionBottomSheet: _buildGalleryOptionBottomSheet);
-      },
-    );
-  }
+  // Future _buildAddCategoryDialog({@required BuildContext context}) {
+  //   return showDialog(
+  //     barrierDismissible: true,
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return CategoryForm(
+  //         context: context,
+  //         openGalleryOptionBottomSheet: _buildGalleryOptionBottomSheet,
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +39,7 @@ class CategoriesPage extends StatelessWidget {
           Icons.add,
           color: Theme.of(context).primaryColor,
         ),
-        onPressed: () {
-          print('add category');
-          _buildAddCategoryDialog(context: context);
-        },
+        onPressed: () => Navigator.of(context).pushNamed('/category-form'),
       ),
       appBar: AppBar(
         elevation: 0.0,

@@ -1,6 +1,7 @@
 import 'package:eazy_shop/pages/admin/admin_product_form/admin_product_form_page.dart';
 import 'package:eazy_shop/pages/admin/admin_products/admin_products_page.dart';
 import 'package:eazy_shop/pages/admin/categories/categories_page.dart';
+import 'package:eazy_shop/pages/admin/category_form_page/category_form_page.dart';
 import 'package:eazy_shop/pages/auth/auth_page.dart';
 import 'package:eazy_shop/pages/check_out/check_out.dart';
 import 'package:eazy_shop/pages/product/product_page.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (BuildContext context) => AuthPage(),
         '/products': (BuildContext context) => ProductsPage(),
         '/category': (BuildContext context) => CategoriesPage(),
+        '/category-form': (BuildContext context) => CategoryFormPage(),
         '/product': (BuildContext context) => ProductPage(),
         '/checkout': (BuildContext context) => CheckOutPage(),
         '/admin-products': (BuildContext context) => AdminProductsPage(),
