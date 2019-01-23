@@ -25,7 +25,9 @@ dependencies:
   # multiple_image_picker: ^0.4.8
   # adv_image_picker: ^0.0.6
   multi_media_picker: ^0.1.2
+  uuid: ^1.0.3
   cloud_firestore: ^0.8.2+3
+  firebase_storage: ^1.0.4
 
 dev_dependencies:
   flutter_test:

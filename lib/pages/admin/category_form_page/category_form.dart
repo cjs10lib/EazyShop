@@ -192,10 +192,14 @@ class _CategoryFormState extends State<CategoryForm> {
   }
 
   void _submitForm() {
+    FocusScope.of(context).requestFocus(FocusNode());
     _formKey.currentState.save();
 
     widget.categoryFormBloc.onCreateCategory(
-        title: _formData['title'], description: _formData['description']);
+      title: _formData['title'],
+      description: _formData['description'],
+      image: _categoryImage,
+    );
   }
 
   Widget _buildForm({@required CategoryFormState state}) {

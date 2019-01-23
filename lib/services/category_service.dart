@@ -7,11 +7,15 @@ class CategoryService {
   final _db = Firestore.instance;
   final _serverTimestamp = FieldValue.serverTimestamp();
 
-  Future<DocumentReference> createCategory(
-      {@required String title, @required String description}) {
-    return _db.collection('categories').add({
+  Future<void> createCategory(
+      {@required String categoryId,
+      @required String title,
+      @required String description,
+      @required String imageUrl}) {
+    return _db.collection('categories').document(categoryId).setData({
       'title': title,
       'description': description,
+      'imageUrl': imageUrl,
       'created': _serverTimestamp,
       'lastUpdate': _serverTimestamp,
     }).timeout(const Duration(seconds: 30), onTimeout: () {
