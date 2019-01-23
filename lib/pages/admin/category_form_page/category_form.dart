@@ -239,16 +239,22 @@ class _CategoryFormState extends State<CategoryForm> {
       state.categoryId.isNotEmpty;
   bool _categorySaveFailure(CategoryFormState state) => state.error.isNotEmpty;
 
-  void _errorSnackbar({@required String errorMessage}) {
+  void _feedbackSnackbar({@required Map<String, dynamic> message}) {
     return _onWidgetDidBuild(() {
       Scaffold.of(context).showSnackBar(
         SnackBar(
-          content: Text('Oops $errorMessage'),
-          backgroundColor: Colors.red,
-          action: SnackBarAction(
-            label: 'Retry',
-            onPressed: _submitForm,
-          ),
+          content: message['success']
+              ? Text('${message['details']}')
+              : Text('Oops ${message['details']}'),
+          backgroundColor: message['success']
+              ? Theme.of(context).backgroundColor
+              : Colors.red,
+          action: message['success']
+              ? null
+              : SnackBarAction(
+                  label: 'Retry',
+                  onPressed: _submitForm,
+                ),
         ),
       );
     });
@@ -261,11 +267,16 @@ class _CategoryFormState extends State<CategoryForm> {
       builder: (BuildContext context, CategoryFormState state) {
         if (_categorySaveSuccess(state)) {
           widget.categoryFormBloc.onCreatedCategory();
-          _dismissDialog();
+          _feedbackSnackbar(message: {
+            'success': true,
+            'details': 'Category successfully saved.'
+          });
+          // _dismissDialog();
         }
 
         if (_categorySaveFailure(state)) {
-          _errorSnackbar(errorMessage: state.error);
+          _feedbackSnackbar(
+              message: {'success': false, 'details': '${state.error}.'});
           print('state error ${state.error}');
           widget.categoryFormBloc.onCreatedCategory();
         }

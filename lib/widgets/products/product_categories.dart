@@ -62,7 +62,7 @@ class ProductCategoriesState extends State<ProductCategories> {
               ),
             ),
             InkWell(
-              onTap: () => Navigator.of(context).pushNamed('/category'),
+              onTap: () => Navigator.of(context).pushReplacementNamed('/category'),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 decoration: BoxDecoration(

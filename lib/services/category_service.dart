@@ -14,10 +14,13 @@ class CategoryService {
       'description': description,
       'created': _serverTimestamp,
       'lastUpdate': _serverTimestamp,
-    }).timeout(const Duration(seconds: 10), onTimeout: () {
-      throw ('Slow internet connection detected! Operation has timed out');
+    }).timeout(const Duration(seconds: 30), onTimeout: () {
+      final Map<String, dynamic> timeoutError = {
+        'message': 'Slow internet connection detected! Operation has timed out'
+      };
+      throw (timeoutError);
     }).catchError((error) {
-      throw (error);
+      throw (error.message);
     });
   }
 }

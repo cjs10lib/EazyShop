@@ -47,7 +47,7 @@ class CategoriesPageState extends State<CategoriesPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: _textColor),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pushReplacementNamed('/products')
         ),
         title: Text(
           'Product Categories',
