@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:eazy_shop/models/category.dart';
 import 'package:eazy_shop/pages/admin/category_form_page/category_form_event.dart';
 import 'package:eazy_shop/pages/admin/category_form_page/category_form_state.dart';
 import 'package:eazy_shop/repositories/category_image_repository.dart';
@@ -23,6 +24,18 @@ class CategoryFormBloc extends Bloc<CategoryFormEvent, CategoryFormState> {
 
   void onCreatedCategory() {
     dispatch(CreatedCategory());
+  }
+
+  void onUpdateCategory(
+      {@required String categoryId,
+      @required String title,
+      @required String description,
+      @required image}) {
+    dispatch(UpdateCategory(
+        categoryId: categoryId,
+        title: title,
+        description: description,
+        image: image));
   }
 
   @override
@@ -52,6 +65,24 @@ class CategoryFormBloc extends Bloc<CategoryFormEvent, CategoryFormState> {
 
     if (event is CreatedCategory) {
       yield CategoryFormState.initial();
+    }
+
+    if (event is UpdateCategory) {
+      yield CategoryFormState.loading();
+
+      try {
+        await _categoryRepository.updateCategory(
+          categoryId: event.categoryId,
+          title: event.title,
+          description: event.description,
+          imageUrl: event.image.toString(),
+        );
+        print('after update');
+        yield CategoryFormState.success(event.categoryId);
+      } catch (error) {
+        print(error.toString());
+        yield CategoryFormState.failure(error.toString());
+      }
     }
   }
 }

@@ -54,6 +54,23 @@ class CategoryRepository {
     }
   }
 
+  Future<void> updateCategory(
+      {@required String categoryId,
+      @required String title,
+      @required String description,
+      @required String imageUrl}) async {
+    try {
+      return await _categoryService.updateCategory(
+        categoryId: categoryId,
+        title: title,
+        description: description,
+        imageUrl: imageUrl,
+      );
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
+
   Future<void> deleteCategory({@required categoryId}) async {
     try {
       return await _categoryService.deleteCategory(categoryId: categoryId);

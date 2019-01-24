@@ -187,7 +187,7 @@ class _CategoryFormState extends State<CategoryForm> {
         child: state.isLoading
             ? CircularProgressIndicator()
             : Text(
-                'Save',
+                widget.category != null ? 'Update' : 'Save',
                 style: TextStyle(
                     color: _containerColor1,
                     fontSize: 18.0,
@@ -222,11 +222,20 @@ class _CategoryFormState extends State<CategoryForm> {
     }
     _formKey.currentState.save();
 
-    widget.categoryFormBloc.onCreateCategory(
-      title: _formData['title'],
-      description: _formData['description'],
-      image: _categoryImage,
-    );
+    if (widget.category != null) {
+      widget.categoryFormBloc.onUpdateCategory(
+        categoryId: widget.category.categoryId,
+        title: _formData['title'],
+        description: _formData['description'],
+        image: _categoryImage,
+      );
+    } else {
+      widget.categoryFormBloc.onCreateCategory(
+        title: _formData['title'],
+        description: _formData['description'],
+        image: _categoryImage,
+      );
+    }
   }
 
   Widget _buildForm({@required CategoryFormState state}) {
@@ -286,6 +295,12 @@ class _CategoryFormState extends State<CategoryForm> {
     });
   }
 
+  void _navigateToCategories() {
+    _onWidgetDidBuild(() {
+      Navigator.of(context).pop();
+    });
+  }
+
   bool _categorySaveSuccess(CategoryFormState state) =>
       state.categoryId.isNotEmpty;
   bool _categorySaveFailure(CategoryFormState state) => state.error.isNotEmpty;
@@ -327,6 +342,10 @@ class _CategoryFormState extends State<CategoryForm> {
           // reset form
           _formKey.currentState.reset();
           _categoryImage = null;
+
+          if (widget.category != null) {
+            _navigateToCategories();
+          }
         }
 
         if (_categorySaveFailure(state)) {
