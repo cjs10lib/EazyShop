@@ -118,18 +118,25 @@ class _CategoryFormState extends State<CategoryForm> {
     );
   }
 
+  Widget _buildCategoryImage() {
+    AssetImage placeholderImage = AssetImage('assets/images/temp1.jpg');
+
+    if (widget.category != null) {
+      return FadeInImage(
+          image: NetworkImage(widget.category.imageUrl),
+          placeholder: placeholderImage,
+          fit: BoxFit.cover);
+    } else {
+      return _categoryImage != null
+          ? Image.file(_categoryImage, fit: BoxFit.cover)
+          : Image.asset('assets/placeholder/placeholder.png', fit: BoxFit.cover);
+    }
+  }
+
   Widget _buildImageContainer() {
     return Container(
       height: 200.0,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: _categoryImage != null
-              ? FileImage(_categoryImage)
-              : AssetImage('assets/images/temp1.jpg'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Color(0xA0000000), BlendMode.multiply),
-        ),
-      ),
+      child: _buildCategoryImage(),
     );
   }
 
