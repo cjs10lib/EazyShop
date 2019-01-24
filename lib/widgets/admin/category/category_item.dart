@@ -3,15 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
+  final String categoryId;
   final String image;
   final String title;
   final String description;
+  final Function deleteCategory;
 
   const CategoryItem(
       {Key key,
+      @required this.categoryId,
       @required this.image,
       @required this.title,
-      @required this.description})
+      @required this.description,
+      @required this.deleteCategory})
       : super(key: key);
 
   @override
@@ -29,7 +33,6 @@ class CategoryItem extends StatelessWidget {
               title: Text(
                 'Delete Category',
                 style: TextStyle(
-                    // color: _textColor,
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -43,7 +46,10 @@ class CategoryItem extends StatelessWidget {
                   color: Theme.of(context).backgroundColor,
                   textColor: Theme.of(context).primaryColor,
                   child: Text('Delete'),
-                  onPressed: () {},
+                  onPressed: () {
+                    deleteCategory(categoryId: categoryId);
+                    Navigator.of(context).pop();
+                  },
                 )
               ],
             );

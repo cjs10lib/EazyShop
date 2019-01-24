@@ -13,9 +13,6 @@ class CategoryRepository {
     try {
       QuerySnapshot snapshot = await _categoryService.fetchCategories();
       final List<DocumentSnapshot> _documentsSnap = snapshot.documents;
-      // if (_documentsSnap.isEmpty) {
-      //   // throw ('No categories found');
-      // }
 
       List<Category> categories = [];
 
@@ -52,6 +49,14 @@ class CategoryRepository {
         description: description,
         imageUrl: imageUrl,
       );
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
+
+  Future<void> deleteCategory({@required categoryId}) async {
+    try {
+      return await _categoryService.deleteCategory(categoryId: categoryId);
     } catch (error) {
       throw (error.toString());
     }

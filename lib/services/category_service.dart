@@ -42,4 +42,19 @@ class CategoryService {
       throw (error.message);
     });
   }
+
+  Future<void> deleteCategory({@required categoryId}) {
+    return _db
+        .collection('categories')
+        .document(categoryId)
+        .delete()
+        .timeout(const Duration(seconds: 30), onTimeout: () {
+      final Map<String, dynamic> timeoutError = {
+        'message': 'Slow internet connection detected! Operation has timed out'
+      };
+      throw (timeoutError);
+    }).catchError((error) {
+      throw (error.message);
+    });
+  }
 }

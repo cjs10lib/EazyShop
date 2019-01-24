@@ -12,6 +12,10 @@ class CategoryList extends StatelessWidget {
     categoriesBloc.onFetchCategories();
   }
 
+  void _deleteCategory({@required categoryId}) {
+    categoriesBloc.onDeleteCategory(categoryId: categoryId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesEvent, CategoriesState>(
@@ -48,11 +52,14 @@ class CategoryList extends StatelessWidget {
           itemCount: state.categories.length,
           itemBuilder: (BuildContext context, int index) {
             final category = state.categories[index];
+            final categoryId = category.categoryId;
 
             return CategoryItem(
+              categoryId: categoryId,
               image: category.imageUrl,
               title: category.title,
               description: category.description,
+              deleteCategory: _deleteCategory,
             );
           },
         );
