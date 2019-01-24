@@ -11,8 +11,11 @@ class CategoryImageService {
   final String _storageDirectory = 'images/categories/';
 
   Future<Map<String, dynamic>> createCategoryImage(
-      {@required File categoryImage}) async {
-    final String categoryImageId = uuid.v1();
+      {@required File categoryImage, String categoryId}) async {
+        
+    print(categoryId);
+    final String categoryImageId = categoryId != null ? categoryId : uuid.v1();
+
     final String fileName = '$_storageDirectory$categoryImageId.jpg';
     final StorageReference ref = _storage.ref().child(fileName);
 

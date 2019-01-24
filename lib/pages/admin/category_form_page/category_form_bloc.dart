@@ -48,7 +48,7 @@ class CategoryFormBloc extends Bloc<CategoryFormEvent, CategoryFormState> {
       try {
         // create category image
         _categoryImage = await _categoryImageRepository.createCategoryImage(
-            categoryimage: event.image);
+            categoryImage: event.image);
 
         // create category with category-image
         await _categoryRepository.createCategory(
@@ -69,13 +69,26 @@ class CategoryFormBloc extends Bloc<CategoryFormEvent, CategoryFormState> {
 
     if (event is UpdateCategory) {
       yield CategoryFormState.loading();
+      Map<String, dynamic> _categoryImage;
 
       try {
+        if (event.image != null) {
+          // delete image
+          await _categoryImageRepository.deleteCategoryImage(
+              categoryId: event.categoryId);
+
+          // create new image
+          _categoryImage = await _categoryImageRepository.createCategoryImage(
+              categoryImage: event.image, categoryId: event.categoryId);
+        }
+
         await _categoryRepository.updateCategory(
           categoryId: event.categoryId,
           title: event.title,
           description: event.description,
-          imageUrl: event.image.toString(),
+          imageUrl: _categoryImage != null
+              ? _categoryImage['downloadUrl']
+              : null,
         );
         print('after update');
         yield CategoryFormState.success(event.categoryId);

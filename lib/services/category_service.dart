@@ -49,19 +49,37 @@ class CategoryService {
       @required String title,
       @required String description,
       @required String imageUrl}) {
-    return _db.collection('categories').document(categoryId).setData({
-      'title': title,
-      'description': description,
-      // 'imageUrl': category.imageUrl,
-      'lastUpdate': _serverTimestamp,
-    }, merge: true).timeout(const Duration(seconds: 30), onTimeout: () {
-      final Map<String, dynamic> timeoutError = {
-        'message': 'Slow internet connection detected! Operation has timed out'
-      };
-      throw (timeoutError);
-    }).catchError((error) {
-      throw (error.message);
-    });
+        
+    if (imageUrl != null) {
+      return _db.collection('categories').document(categoryId).setData({
+        'title': title,
+        'description': description,
+        'imageUrl': imageUrl,
+        'lastUpdate': _serverTimestamp,
+      }, merge: true).timeout(const Duration(seconds: 30), onTimeout: () {
+        final Map<String, dynamic> timeoutError = {
+          'message':
+              'Slow internet connection detected! Operation has timed out'
+        };
+        throw (timeoutError);
+      }).catchError((error) {
+        throw (error.message);
+      });
+    } else {
+      return _db.collection('categories').document(categoryId).setData({
+        'title': title,
+        'description': description,
+        'lastUpdate': _serverTimestamp,
+      }, merge: true).timeout(const Duration(seconds: 30), onTimeout: () {
+        final Map<String, dynamic> timeoutError = {
+          'message':
+              'Slow internet connection detected! Operation has timed out'
+        };
+        throw (timeoutError);
+      }).catchError((error) {
+        throw (error.message);
+      });
+    }
   }
 
   Future<void> deleteCategory({@required categoryId}) {

@@ -7,12 +7,12 @@ import 'package:meta/meta.dart';
 class CategoryImageRepository {
   final _categoryImageService = CategoryImageService();
 
-  Future<Map<String, dynamic>> createCategoryImage({@required File categoryimage}) async {
+  Future<Map<String, dynamic>> createCategoryImage({@required File categoryImage, String categoryId}) async {
     Map<String, dynamic> _categoryImage;
 
     try {
       _categoryImage = await _categoryImageService.createCategoryImage(
-          categoryImage: categoryimage);
+          categoryImage: categoryImage, categoryId: categoryId);
 
       return _categoryImage;
     } catch (error) {

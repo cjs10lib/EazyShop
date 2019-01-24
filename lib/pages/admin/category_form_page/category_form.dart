@@ -121,7 +121,7 @@ class _CategoryFormState extends State<CategoryForm> {
   Widget _buildCategoryImage() {
     AssetImage placeholderImage = AssetImage('assets/images/temp1.jpg');
 
-    if (widget.category != null) {
+    if (widget.category != null && _categoryImage == null) {
       return FadeInImage(
           image: NetworkImage(widget.category.imageUrl),
           placeholder: placeholderImage,
@@ -129,7 +129,8 @@ class _CategoryFormState extends State<CategoryForm> {
     } else {
       return _categoryImage != null
           ? Image.file(_categoryImage, fit: BoxFit.cover)
-          : Image.asset('assets/placeholder/placeholder.png', fit: BoxFit.cover);
+          : Image.asset('assets/placeholder/placeholder.png',
+              fit: BoxFit.cover);
     }
   }
 
@@ -207,23 +208,6 @@ class _CategoryFormState extends State<CategoryForm> {
   void _submitForm() {
     FocusScope.of(context).requestFocus(FocusNode());
 
-    if (_categoryImage == null) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'No image selected! Select category image.',
-            style: TextStyle(color: Colors.red),
-          ),
-          backgroundColor: Theme.of(context).backgroundColor,
-          action: SnackBarAction(
-            label: 'Select Image',
-            onPressed: () => _buildGalleryOptionBottomSheet(context: context),
-          ),
-        ),
-      );
-      return;
-    }
-
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -234,9 +218,27 @@ class _CategoryFormState extends State<CategoryForm> {
         categoryId: widget.category.categoryId,
         title: _formData['title'],
         description: _formData['description'],
-        image: _categoryImage,
+        image: _categoryImage != null ? _categoryImage : null,
       );
     } else {
+      // validate image
+      if (_categoryImage == null) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'No image selected! Select category image.',
+              style: TextStyle(color: Colors.red),
+            ),
+            backgroundColor: Theme.of(context).backgroundColor,
+            action: SnackBarAction(
+              label: 'Select Image',
+              onPressed: () => _buildGalleryOptionBottomSheet(context: context),
+            ),
+          ),
+        );
+        return;
+      }
+
       widget.categoryFormBloc.onCreateCategory(
         title: _formData['title'],
         description: _formData['description'],
@@ -346,12 +348,14 @@ class _CategoryFormState extends State<CategoryForm> {
             'details': 'Category successfully saved.'
           });
 
-          // reset form
-          _formKey.currentState.reset();
-          _categoryImage = null;
-
           if (widget.category != null) {
             _navigateToCategories();
+          }
+
+          if (widget.category == null) {
+            // reset form
+            _formKey.currentState.reset();
+            _categoryImage = null;
           }
         }
 
