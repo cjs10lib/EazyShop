@@ -54,7 +54,9 @@ class CategoryItem extends StatelessWidget {
                       left: 15.0,
                       child: CircleAvatar(
                         radius: 60.0,
-                        backgroundImage: AssetImage(image),
+                        backgroundImage: image != null
+                            ? NetworkImage(image)
+                            : AssetImage('assets/images/temp1.jpg'),
                       ),
                     )
                   ],

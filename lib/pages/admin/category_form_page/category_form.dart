@@ -118,6 +118,7 @@ class _CategoryFormState extends State<CategoryForm> {
 
   Widget _buildImageContainer() {
     return Container(
+      height: 200.0,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: _categoryImage != null
@@ -130,15 +131,14 @@ class _CategoryFormState extends State<CategoryForm> {
     );
   }
 
-  Widget _buildImageHeaderStack() {
-    return Stack(
-      children: <Widget>[
-        Container(height: 200.0, width: 350.0),
-        _buildImageContainer(),
-        Positioned(top: 30.0, right: 10.0, child: _buildPickImageButton())
-      ],
-    );
-  }
+  // Widget _buildImageHeaderStack() {
+  //   return Stack(
+  //     children: <Widget>[
+  //       Container(height: 200.0, width: 350.0),
+  //       _buildImageContainer(),
+  //     ],
+  //   );
+  // }
 
   Widget _buildTitleTextField({@required TextStyle textStyle}) {
     return TextFormField(
@@ -148,6 +148,11 @@ class _CategoryFormState extends State<CategoryForm> {
           labelStyle: textStyle,
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Category title is required!';
+        }
+      },
       onSaved: (String value) {
         _formData['title'] = value;
       },
@@ -164,6 +169,11 @@ class _CategoryFormState extends State<CategoryForm> {
           labelStyle: textStyle,
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Category description is required!';
+        }
+      },
       onSaved: (String value) {
         _formData['description'] = value;
       },
@@ -193,6 +203,27 @@ class _CategoryFormState extends State<CategoryForm> {
 
   void _submitForm() {
     FocusScope.of(context).requestFocus(FocusNode());
+
+    if (_categoryImage == null) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'No image selected! Select category image.',
+            style: TextStyle(color: Colors.red),
+          ),
+          backgroundColor: Theme.of(context).backgroundColor,
+          action: SnackBarAction(
+            label: 'Select Image',
+            onPressed: () => _buildGalleryOptionBottomSheet(context: context),
+          ),
+        ),
+      );
+      return;
+    }
+
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
     _formKey.currentState.save();
 
     widget.categoryFormBloc.onCreateCategory(
@@ -219,9 +250,10 @@ class _CategoryFormState extends State<CategoryForm> {
             //   icon: Icon(Icons.arrow_back, color: _textColor),
             //   onPressed: () => Navigator.of(context).pop,
             // ),
+            actions: <Widget>[_buildPickImageButton()],
             expandedHeight: 350.0,
             flexibleSpace: FlexibleSpaceBar(
-              background: _buildImageHeaderStack(),
+              background: _buildImageContainer(),
             ),
           ),
           SliverList(
@@ -258,12 +290,6 @@ class _CategoryFormState extends State<CategoryForm> {
     });
   }
 
-  // void _dismissDialog() {
-  //   return _onWidgetDidBuild((_) {
-  //     Navigator.of(context).pop();
-  //   });
-  // }
-
   bool _categorySaveSuccess(CategoryFormState state) =>
       state.categoryId.isNotEmpty;
   bool _categorySaveFailure(CategoryFormState state) => state.error.isNotEmpty;
@@ -274,10 +300,11 @@ class _CategoryFormState extends State<CategoryForm> {
         SnackBar(
           content: message['success']
               ? Text('${message['details']}')
-              : Text('Oops ${message['details']}'),
-          backgroundColor: message['success']
-              ? Theme.of(context).backgroundColor
-              : Colors.red,
+              : Text(
+                  'Oops ${message['details']}',
+                  style: TextStyle(color: Colors.red),
+                ),
+          backgroundColor: Theme.of(context).backgroundColor,
           action: message['success']
               ? null
               : SnackBarAction(
@@ -300,7 +327,10 @@ class _CategoryFormState extends State<CategoryForm> {
             'success': true,
             'details': 'Category successfully saved.'
           });
-          // _dismissDialog();
+
+          // reset form
+          _formKey.currentState.reset();
+          _categoryImage = null;
         }
 
         if (_categorySaveFailure(state)) {

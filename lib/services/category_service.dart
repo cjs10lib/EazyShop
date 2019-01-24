@@ -7,6 +7,21 @@ class CategoryService {
   final _db = Firestore.instance;
   final _serverTimestamp = FieldValue.serverTimestamp();
 
+  Future<QuerySnapshot> fetchCategories() {
+    return _db
+        .collection('categories')
+        .orderBy('lastUpdate')
+        .getDocuments()
+        .timeout(const Duration(seconds: 30), onTimeout: () {
+      final Map<String, dynamic> timeoutError = {
+        'message': 'Slow internet connection detected! Operation has timed out'
+      };
+      throw (timeoutError);
+    }).catchError((error) {
+      throw (error.message);
+    });
+  }
+
   Future<void> createCategory(
       {@required String categoryId,
       @required String title,
