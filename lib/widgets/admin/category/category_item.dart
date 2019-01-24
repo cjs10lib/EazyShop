@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -18,6 +20,35 @@ class CategoryItem extends StatelessWidget {
     final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
     final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
     final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+
+    Future _openDeleteConfirmationDialog({@required category}) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Delete Category',
+                style: TextStyle(
+                    // color: _textColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              content: Text('Are you sure of deleting $category \'s category?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                RaisedButton(
+                  color: Theme.of(context).backgroundColor,
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text('Delete'),
+                  onPressed: () {},
+                )
+              ],
+            );
+          });
+    }
 
     Widget _buildCategoryImageStack() {
       return Stack(
@@ -81,33 +112,39 @@ class CategoryItem extends StatelessWidget {
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Material(
-                    elevation: 2.0,
-                    color: _containerColor1,
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      height: 40.0,
-                      width: 40.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: Icon(
-                        Icons.edit,
-                        color: _textColor,
+                  InkWell(
+                    onTap: () {},
+                    child: Material(
+                      elevation: 2.0,
+                      color: _containerColor1,
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(
+                        height: 40.0,
+                        width: 40.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Icon(
+                          Icons.edit,
+                          color: _textColor,
+                        ),
                       ),
                     ),
                   ),
-                  Material(
-                    elevation: 2.0,
-                    color: _containerColor1,
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      height: 40.0,
-                      width: 40.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.red,
+                  InkWell(
+                    onTap: () => _openDeleteConfirmationDialog(category: title),
+                    child: Material(
+                      elevation: 2.0,
+                      color: _containerColor1,
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(
+                        height: 40.0,
+                        width: 40.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ),
