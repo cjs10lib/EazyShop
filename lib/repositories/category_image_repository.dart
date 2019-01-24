@@ -20,4 +20,12 @@ class CategoryImageRepository {
       throw (error.toString());
     }
   }
+
+  Future<void> deleteCategoryImage({@required String categoryId}) async {
+    try {
+      return await _categoryImageService.deleteCategoryImage(categoryId: categoryId);
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
 }

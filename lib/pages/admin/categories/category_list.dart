@@ -12,6 +12,21 @@ class CategoryList extends StatelessWidget {
     categoriesBloc.onFetchCategories();
   }
 
+  void _onWidgetDidBuild(Function callback) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callback();
+    });
+  }
+
+  _showErrorSnackbar({@required BuildContext context, @required message}) {
+    _onWidgetDidBuild(() {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(message, style: TextStyle(color: Colors.red)),
+        backgroundColor: Theme.of(context).backgroundColor,
+      ));
+    });
+  }
+
   void _deleteCategory({@required categoryId}) {
     categoriesBloc.onDeleteCategory(categoryId: categoryId);
   }
@@ -28,13 +43,12 @@ class CategoryList extends StatelessWidget {
         }
         if (state.hasError) {
           print(state.error);
+          _showErrorSnackbar(context: context, message: state.error);
           return Center(
-            child: Text(
-              'Oops! An error occured. Failed to fetch categories',
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold),
-            ),
+            child: Text('Oops! An error occured. Failed to fetch categories',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold)),
           );
         }
         if (state.categories.isEmpty) {

@@ -37,8 +37,6 @@ class CategoryFormBloc extends Bloc<CategoryFormEvent, CategoryFormState> {
         _categoryImage = await _categoryImageRepository.createCategoryImage(
             categoryimage: event.image);
 
-        print(_categoryImage['categoryImageId']);
-
         // create category with category-image
         await _categoryRepository.createCategory(
           categoryId: _categoryImage['categoryImageId'],

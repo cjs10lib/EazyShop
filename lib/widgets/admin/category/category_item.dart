@@ -27,6 +27,7 @@ class CategoryItem extends StatelessWidget {
 
     Future _openDeleteConfirmationDialog({@required category}) {
       return showDialog(
+        barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -47,8 +48,8 @@ class CategoryItem extends StatelessWidget {
                   textColor: Theme.of(context).primaryColor,
                   child: Text('Delete'),
                   onPressed: () {
-                    deleteCategory(categoryId: categoryId);
                     Navigator.of(context).pop();
+                    deleteCategory(categoryId: categoryId);
                   },
                 )
               ],
