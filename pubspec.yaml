@@ -59,6 +59,7 @@ flutter:
    - assets/images/temp9.jpg
    - assets/images/login-background.jpg
    - assets/logo/logo.png
+   - assets/loader/loader.gif
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

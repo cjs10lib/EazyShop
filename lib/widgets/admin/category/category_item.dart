@@ -52,11 +52,18 @@ class CategoryItem extends StatelessWidget {
                     Positioned(
                       top: 15.0,
                       left: 15.0,
-                      child: CircleAvatar(
-                        radius: 60.0,
-                        backgroundImage: image != null
-                            ? NetworkImage(image)
-                            : AssetImage('assets/images/temp1.jpg'),
+                      child: Container(
+                        height: 120.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(60.0)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(60.0),
+                          child: FadeInImage(
+                            image: NetworkImage(image),
+                            placeholder: AssetImage('assets/loader/loader.gif'),
+                          ),
+                        ),
                       ),
                     )
                   ],
