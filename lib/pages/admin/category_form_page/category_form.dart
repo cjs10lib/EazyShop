@@ -3,6 +3,7 @@ import 'dart:io';
 
 // import 'package:multiple_image_picker/multiple_image_picker.dart';
 // import 'package:adv_image_picker/adv_image_picker.dart';
+import 'package:eazy_shop/models/category.dart';
 import 'package:multi_media_picker/multi_media_picker.dart';
 
 import 'package:eazy_shop/pages/admin/category_form_page/category_form_bloc.dart';
@@ -14,8 +15,9 @@ import 'package:flutter/material.dart';
 
 class CategoryForm extends StatefulWidget {
   final CategoryFormBloc categoryFormBloc;
+  final Category category;
 
-  const CategoryForm({Key key, @required this.categoryFormBloc})
+  const CategoryForm({Key key, @required this.categoryFormBloc, this.category})
       : super(key: key);
 
   @override
@@ -131,18 +133,10 @@ class _CategoryFormState extends State<CategoryForm> {
     );
   }
 
-  // Widget _buildImageHeaderStack() {
-  //   return Stack(
-  //     children: <Widget>[
-  //       Container(height: 200.0, width: 350.0),
-  //       _buildImageContainer(),
-  //     ],
-  //   );
-  // }
-
   Widget _buildTitleTextField({@required TextStyle textStyle}) {
     return TextFormField(
       style: textStyle,
+      initialValue: widget.category != null ? widget.category.title : null,
       decoration: InputDecoration(
           labelText: 'Category Title',
           labelStyle: textStyle,
@@ -164,6 +158,8 @@ class _CategoryFormState extends State<CategoryForm> {
       maxLines: 3,
       keyboardType: TextInputType.multiline,
       style: textStyle,
+      initialValue:
+          widget.category != null ? widget.category.description : null,
       decoration: InputDecoration(
           labelText: 'Category Description',
           labelStyle: textStyle,

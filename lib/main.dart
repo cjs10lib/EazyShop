@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/checkout': (BuildContext context) => CheckOutPage(),
         '/admin-products': (BuildContext context) => AdminProductsPage(),
         '/admin-product-form': (BuildContext context) => AdminProductFormPage(),
-      },
+      }
     );
   }
 }

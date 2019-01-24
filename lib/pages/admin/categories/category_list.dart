@@ -66,14 +66,10 @@ class CategoryList extends StatelessWidget {
           itemCount: state.categories.length,
           itemBuilder: (BuildContext context, int index) {
             final category = state.categories[index];
-            final categoryId = category.categoryId;
 
             return CategoryItem(
-              categoryId: categoryId,
-              image: category.imageUrl,
-              title: category.title,
-              description: category.description,
               deleteCategory: _deleteCategory,
+              category: category,
             );
           },
         );

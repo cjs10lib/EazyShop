@@ -1,21 +1,17 @@
 import 'dart:async';
 
+import 'package:eazy_shop/models/category.dart';
+import 'package:eazy_shop/pages/admin/category_form_page/category_form_page.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String categoryId;
-  final String image;
-  final String title;
-  final String description;
   final Function deleteCategory;
+  final Category category;
 
   const CategoryItem(
       {Key key,
-      @required this.categoryId,
-      @required this.image,
-      @required this.title,
-      @required this.description,
-      @required this.deleteCategory})
+      @required this.deleteCategory,
+      @required this.category})
       : super(key: key);
 
   @override
@@ -25,19 +21,18 @@ class CategoryItem extends StatelessWidget {
     final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
     final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
-    Future _openDeleteConfirmationDialog({@required category}) {
+    Future _openDeleteConfirmationDialog() {
       return showDialog(
-        barrierDismissible: false,
+          barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(
                 'Delete Category',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-              content: Text('Are you sure of deleting $category \'s category?'),
+              content: Text(
+                  'Are you sure of deleting ${category.title} \'s category?'),
               actions: <Widget>[
                 FlatButton(
                   child: Text('Cancel'),
@@ -49,12 +44,21 @@ class CategoryItem extends StatelessWidget {
                   child: Text('Delete'),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    deleteCategory(categoryId: categoryId);
+                    deleteCategory(categoryId: category.categoryId);
                   },
                 )
               ],
             );
           });
+    }
+
+    void _editCategory() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => CategoryFormPage(
+                    category: category,
+                  )));
     }
 
     Widget _buildCategoryImageStack() {
@@ -87,7 +91,7 @@ class CategoryItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(60.0),
                 child: FadeInImage(
-                  image: NetworkImage(image),
+                  image: NetworkImage(category.imageUrl),
                   placeholder: AssetImage('assets/loader/loader.gif'),
                 ),
               ),
@@ -104,14 +108,14 @@ class CategoryItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(title,
+              Text(category.title,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold)),
               SizedBox(height: 10.0),
               Text(
-                description,
+                category.description,
                 softWrap: true,
                 style:
                     TextStyle(color: _textColor, fontWeight: FontWeight.bold),
@@ -120,7 +124,7 @@ class CategoryItem extends StatelessWidget {
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: _editCategory,
                     child: Material(
                       elevation: 2.0,
                       color: _containerColor1,
@@ -138,7 +142,7 @@ class CategoryItem extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () => _openDeleteConfirmationDialog(category: title),
+                    onTap: _openDeleteConfirmationDialog,
                     child: Material(
                       elevation: 2.0,
                       color: _containerColor1,
