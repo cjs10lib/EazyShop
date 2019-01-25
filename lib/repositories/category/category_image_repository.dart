@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:eazy_shop/services/category_image_service.dart';
+import 'package:eazy_shop/services/category/category_image_service.dart';
 import 'package:meta/meta.dart';
 
 class CategoryImageRepository {

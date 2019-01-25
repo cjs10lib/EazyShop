@@ -1,11 +1,11 @@
-import 'package:eazy_shop/widgets/product/product_details.dart';
+import 'package:eazy_shop/pages/product/product_details/widgets/product_details.dart';
 import 'package:flutter/material.dart';
 
-class ProductPage extends StatelessWidget {
-  final _textColor = Colors.grey;
-  final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
-  final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
-  final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+class ProductDetailsPage extends StatelessWidget {
+  // final _textColor = Colors.grey;
+  // final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
+  // final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
+  // final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
   Widget _buildDrawerToggle({@required BuildContext context}) {
     return IconButton(

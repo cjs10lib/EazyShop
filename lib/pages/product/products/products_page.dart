@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:eazy_shop/widgets/products/product_categories.dart';
-import 'package:eazy_shop/widgets/products/products.dart';
-import 'package:eazy_shop/widgets/shopping_cart/shopping_cart_item.dart';
+import 'package:eazy_shop/pages/product/products/widgets/product_categories.dart';
+import 'package:eazy_shop/pages/product/products/widgets/products.dart';
+import 'package:eazy_shop/shared_widgets/shopping_cart/shopping_cart_item.dart';
 import 'package:flutter/material.dart';
 
 class ProductsPage extends StatelessWidget {

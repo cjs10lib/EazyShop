@@ -11,7 +11,6 @@ class AdminProductFormPage extends StatefulWidget {
 
 class AdminProductFormPageState extends State<AdminProductFormPage> {
   final Color _textColor = Colors.grey;
-  final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 

@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:eazy_shop/models/category.dart';
-import 'package:eazy_shop/pages/admin/categories/categories_event.dart';
-import 'package:eazy_shop/pages/admin/categories/categories_state.dart';
-import 'package:eazy_shop/repositories/category_image_repository.dart';
-import 'package:eazy_shop/repositories/category_repository.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/categories_event.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/categories_state.dart';
+import 'package:eazy_shop/repositories/category/category_image_repository.dart';
+import 'package:eazy_shop/repositories/category/category_repository.dart';
 import 'package:meta/meta.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {

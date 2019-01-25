@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:eazy_shop/models/category.dart';
-import 'package:meta/meta.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:eazy_shop/services/category_service.dart';
+import 'package:eazy_shop/models/category.dart';
+import 'package:eazy_shop/services/category/category_service.dart';
+import 'package:meta/meta.dart';
 
 class CategoryRepository {
   final _categoryService = CategoryService();

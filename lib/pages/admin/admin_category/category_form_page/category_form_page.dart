@@ -1,6 +1,6 @@
 import 'package:eazy_shop/models/category.dart';
-import 'package:eazy_shop/pages/admin/category_form_page/category_form.dart';
-import 'package:eazy_shop/pages/admin/category_form_page/category_form_bloc.dart';
+import 'package:eazy_shop/pages/admin/admin_category/category_form_page/category_form.dart';
+import 'package:eazy_shop/pages/admin/admin_category/category_form_page/category_form_bloc.dart';
 import 'package:flutter/material.dart';
 
 class CategoryFormPage extends StatefulWidget {
@@ -29,11 +29,14 @@ class _CategoryFormPageState extends State<CategoryFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: CategoryForm(
-        categoryFormBloc: _categoryFormBloc,
-        category: widget.category,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: CategoryForm(
+          categoryFormBloc: _categoryFormBloc,
+          category: widget.category,
+        ),
       ),
     );
   }

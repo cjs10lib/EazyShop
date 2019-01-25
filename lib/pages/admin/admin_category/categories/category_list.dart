@@ -1,7 +1,7 @@
-import 'package:eazy_shop/pages/admin/categories/categories_bloc.dart';
-import 'package:eazy_shop/pages/admin/categories/categories_event.dart';
-import 'package:eazy_shop/pages/admin/categories/categories_state.dart';
-import 'package:eazy_shop/widgets/admin/category/category_item.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/categories_bloc.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/categories_event.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/categories_state.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/widgets/category_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

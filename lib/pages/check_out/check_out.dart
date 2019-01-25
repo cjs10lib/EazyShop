@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:eazy_shop/widgets/shopping_cart/shopping_cart_item.dart';
+import 'package:eazy_shop/shared_widgets/shopping_cart/shopping_cart_item.dart';
 import 'package:flutter/material.dart';
 
 class CheckOutPage extends StatelessWidget {

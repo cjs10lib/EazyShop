@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:eazy_shop/models/category.dart';
-import 'package:eazy_shop/pages/admin/category_form_page/category_form_page.dart';
+import 'package:eazy_shop/pages/admin/admin_category/category_form_page/category_form_page.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {

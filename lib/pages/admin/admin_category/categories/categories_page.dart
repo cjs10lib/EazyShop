@@ -1,5 +1,5 @@
-import 'package:eazy_shop/pages/admin/categories/categories_bloc.dart';
-import 'package:eazy_shop/pages/admin/categories/category_list.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/categories_bloc.dart';
+import 'package:eazy_shop/pages/admin/admin_category/categories/category_list.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesPage extends StatefulWidget {

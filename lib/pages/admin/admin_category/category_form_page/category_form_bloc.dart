@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'package:eazy_shop/models/category.dart';
-import 'package:eazy_shop/pages/admin/category_form_page/category_form_event.dart';
-import 'package:eazy_shop/pages/admin/category_form_page/category_form_state.dart';
-import 'package:eazy_shop/repositories/category_image_repository.dart';
-import 'package:meta/meta.dart';
-
-import 'package:eazy_shop/repositories/category_repository.dart';
 
 import 'package:bloc/bloc.dart';
+import 'package:eazy_shop/pages/admin/admin_category/category_form_page/category_form_event.dart';
+import 'package:eazy_shop/pages/admin/admin_category/category_form_page/category_form_state.dart';
+import 'package:eazy_shop/repositories/category/category_image_repository.dart';
+import 'package:eazy_shop/repositories/category/category_repository.dart';
+import 'package:meta/meta.dart';
 
 class CategoryFormBloc extends Bloc<CategoryFormEvent, CategoryFormState> {
   final _categoryRepository = CategoryRepository();

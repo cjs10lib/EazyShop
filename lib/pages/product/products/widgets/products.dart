@@ -1,4 +1,4 @@
-import 'package:eazy_shop/widgets/products/product_item.dart';
+import 'package:eazy_shop/pages/product/products/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 
 class Products extends StatefulWidget {
