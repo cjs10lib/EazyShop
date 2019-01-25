@@ -1,11 +1,18 @@
 import 'package:eazy_shop/models/category.dart';
+import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_bloc.dart';
+import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_event.dart';
+import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_state.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/widgets/gallery_option_bottomsheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminProductForm extends StatefulWidget {
-   final List<Category> categories;
+  final List<Category> categories;
+  final AdminProductFormBloc productFormBloc;
 
-  const AdminProductForm({Key key, @required this.categories}) : super(key: key);
+  const AdminProductForm(
+      {Key key, @required this.categories, @required this.productFormBloc})
+      : super(key: key);
 
   @override
   _AdminProductFormState createState() => _AdminProductFormState();
@@ -16,7 +23,14 @@ class _AdminProductFormState extends State<AdminProductForm> {
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
-  // List<String> _categories = ['Men', 'Women'];
+  final _formKey = GlobalKey<FormState>();
+
+  final _designerController = TextEditingController();
+  final _componentsController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _quantityController = TextEditingController();
 
   String _category;
 
@@ -37,6 +51,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
   Widget _buildDesignerTextField() {
     return TextFormField(
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
+      controller: _designerController,
       decoration: InputDecoration(
           labelText: 'Designed by',
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -72,6 +87,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
 
   Widget _buildComponentsTextField() {
     return TextFormField(
+      controller: _componentsController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
           labelText: 'Product Components [e.g. cotton, silk]',
@@ -83,6 +99,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
 
   Widget _buildTitleTextField({@required BuildContext context}) {
     return TextFormField(
+      controller: _titleController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
           labelText: 'Title',
@@ -96,6 +113,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
     return TextFormField(
       maxLines: 3,
       keyboardType: TextInputType.multiline,
+      controller: _descriptionController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
           labelText: 'Description',
@@ -108,9 +126,23 @@ class _AdminProductFormState extends State<AdminProductForm> {
   Widget _buildPriceTextField({@required BuildContext context}) {
     return TextFormField(
       keyboardType: TextInputType.number,
+      controller: _priceController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
           labelText: 'Price',
+          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+          filled: true,
+          fillColor: _containerColor1),
+    );
+  }
+
+  Widget _buildQTYTextField() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      controller: _quantityController,
+      style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
+      decoration: InputDecoration(
+          labelText: 'Available QTY',
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
@@ -329,137 +361,233 @@ class _AdminProductFormState extends State<AdminProductForm> {
     );
   }
 
-  Widget _buildQTYTextField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
-      decoration: InputDecoration(
-          labelText: 'Available QTY',
-          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-          filled: true,
-          fillColor: _containerColor1),
-    );
-  }
-
-  Widget _buildProductFormControl() {
+  Widget _buildProductFormControl({@required AdminProductFormState state}) {
     return InkWell(
-      onTap: () {
-        print('Product Created!');
-      },
+      onTap: state.isSaveProductButtonEnabled ? _submitForm : null,
       child: Container(
         height: 50.0,
         width: double.infinity,
         color: _containerColor2,
         alignment: Alignment.center,
-        child: Text(
-          'Save',
-          style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
+        child: state.isLoading
+            ? CircularProgressIndicator()
+            : Text(
+                'Save',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold),
+              ),
+      ),
+    );
+  }
+
+  void _submitForm() {
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    _formKey.currentState.save();
+
+    widget.productFormBloc.onCreateProduct(
+      designer: _designerController.text,
+      category: _category,
+      components: _componentsController.text,
+      title: _titleController.text,
+      description: _descriptionController.text,
+      price: double.parse(_priceController.text),
+      quantity: int.parse(_quantityController.text),
+    );
+  }
+
+  void _resetForm() {
+    _designerController.text = '';
+    _category = null;
+    _componentsController.text = '';
+    _titleController.text = '';
+    _descriptionController.text = '';
+    _priceController.text = '';
+    _quantityController.text = '';
+  }
+
+  Widget _buildSliverAppBar() {
+    final galleryBottomsheet = GalleryOptionBottomsheet(context: context);
+
+    return SliverAppBar(
+      pinned: true,
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop()),
+      title: Text('Add Product', style: TextStyle(color: Colors.white)),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.add_a_photo,
+            color: Theme.of(context).primaryColor,
+            size: 30.0,
+          ),
+          onPressed: () => galleryBottomsheet.openGalleryOptionBottomSheet(),
+        )
+      ],
+      expandedHeight: 250.0,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/temp2.jpg'),
+              fit: BoxFit.cover,
+              colorFilter:
+                  ColorFilter.mode(Color(0xA0000000), BlendMode.multiply)),
         ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-
-    final galleryBottomsheet = GalleryOptionBottomsheet(context: context);
-
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop()),
-          title: Text('Add Product', style: TextStyle(color: Colors.white)),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.add_a_photo,
-                color: Theme.of(context).primaryColor,
-                size: 30.0,
-              ),
-              onPressed: () => galleryBottomsheet.openGalleryOptionBottomSheet(),
-            )
-          ],
-          expandedHeight: 250.0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/temp2.jpg'),
-                  fit: BoxFit.cover,
-                  colorFilter:
-                      ColorFilter.mode(Color(0xA0000000), BlendMode.multiply)),
+  Widget _buildSliverList({@required AdminProductFormState state}) {
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        Form(
+          key: _formKey,
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                Text('Designer(s)',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                Divider(),
+                _buildDesignerTextField(),
+                SizedBox(height: 20.0),
+                Text('Category & Components',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                Divider(),
+                _buildCategoryDropDownField(),
+                SizedBox(height: 20.0),
+                _buildComponentsTextField(),
+                SizedBox(height: 20.0),
+                Text('Product Details',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                Divider(),
+                _buildTitleTextField(context: context),
+                SizedBox(height: 20.0),
+                _buildDescriptionTextField(context: context),
+                SizedBox(height: 20.0),
+                _buildPriceTextField(context: context),
+                SizedBox(height: 20.0),
+                Text('Sizes',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                Divider(),
+                _buildProductSizes(),
+                SizedBox(height: 20.0),
+                Text('Colors',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                Divider(),
+                _buildProductColors(),
+                SizedBox(height: 20.0),
+                _buildQTYTextField(),
+                SizedBox(height: 20.0),
+                _buildProductFormControl(state: state)
+              ],
             ),
           ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            Form(
-              child: Container(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    Text('Designer(s)',
-                        style: TextStyle(
-                            color: _textColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                    Divider(),
-                    _buildDesignerTextField(),
-                    SizedBox(height: 20.0),
-                    Text('Category & Components',
-                        style: TextStyle(
-                            color: _textColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                    Divider(),
-                    _buildCategoryDropDownField(),
-                    SizedBox(height: 20.0),
-                    _buildComponentsTextField(),
-                    SizedBox(height: 20.0),
-                    Text('Product Details',
-                        style: TextStyle(
-                            color: _textColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                    Divider(),
-                    _buildTitleTextField(context: context),
-                    SizedBox(height: 20.0),
-                    _buildDescriptionTextField(context: context),
-                    SizedBox(height: 20.0),
-                    _buildPriceTextField(context: context),
-                    SizedBox(height: 20.0),
-                    Text('Sizes',
-                        style: TextStyle(
-                            color: _textColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                    Divider(),
-                    _buildProductSizes(),
-                    SizedBox(height: 20.0),
-                    Text('Colors',
-                        style: TextStyle(
-                            color: _textColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold)),
-                    Divider(),
-                    _buildProductColors(),
-                    SizedBox(height: 20.0),
-                    _buildQTYTextField(),
-                    SizedBox(height: 20.0),
-                    _buildProductFormControl()
-                  ],
-                ),
-              ),
-            )
-          ]),
         )
-      ],
+      ]),
+    );
+  }
+
+  void _onWidgetDidBuild(Function callback) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callback();
+    });
+  }
+
+  // void _navigateToCategories() {
+  //   _onWidgetDidBuild(() {
+  //     Navigator.of(context).pop();
+  //   });
+  // }
+
+  bool _productSaveSuccess(AdminProductFormState state) =>
+      state.productId.isNotEmpty;
+  bool _productSaveFailure(AdminProductFormState state) =>
+      state.error.isNotEmpty;
+
+  void _feedbackSnackbar({@required Map<String, dynamic> message}) {
+    return _onWidgetDidBuild(() {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: message['success']
+              ? Text('${message['details']}')
+              : Text(
+                  'Oops ${message['details']}',
+                  style: TextStyle(color: Colors.red),
+                ),
+          backgroundColor: Theme.of(context).backgroundColor,
+          action: message['success']
+              ? null
+              : SnackBarAction(
+                  label: 'Retry',
+                  onPressed: _submitForm,
+                ),
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AdminProductFormEvent, AdminProductFormState>(
+      bloc: widget.productFormBloc,
+      builder: (BuildContext context, AdminProductFormState state) {
+        if (_productSaveSuccess(state)) {
+          widget.productFormBloc.onCreatedProduct();
+          _feedbackSnackbar(message: {
+            'success': true,
+            'details': 'product successfully saved.'
+          });
+
+          // reset form
+          _resetForm();
+          // _formKey.currentState.reset();
+          // _productImage = null;
+
+          // if (widget.product != null) {
+          //   _navigateToCategories();
+          // }
+
+          // if (widget.product == null) {
+          //   // reset form
+          //   _formKey.currentState.reset();
+          //   _productImage = null;
+          // }
+        }
+
+        if (_productSaveFailure(state)) {
+          _feedbackSnackbar(
+              message: {'success': false, 'details': '${state.error}.'});
+          print('state error ${state.error}');
+          widget.productFormBloc.onCreatedProduct();
+        }
+
+        return CustomScrollView(
+          slivers: <Widget>[
+            _buildSliverAppBar(),
+            _buildSliverList(state: state),
+          ],
+        );
+      },
     );
   }
 }
