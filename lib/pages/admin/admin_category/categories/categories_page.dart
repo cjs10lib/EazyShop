@@ -54,10 +54,13 @@ class CategoriesPageState extends State<CategoriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        floatingActionButton: _buildAddCategoryFAB(),
-        appBar: _buildAppBar(),
-        body: CategoryList(categoriesBloc: _categoriesBloc));
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
+          floatingActionButton: _buildAddCategoryFAB(),
+          appBar: _buildAppBar(),
+          body: CategoryList(categoriesBloc: _categoriesBloc)),
+    );
   }
 }

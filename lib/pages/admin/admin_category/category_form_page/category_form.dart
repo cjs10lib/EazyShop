@@ -117,7 +117,7 @@ class _CategoryFormState extends State<CategoryForm> {
   }
 
   Widget _buildCategoryImage() {
-    AssetImage placeholderImage = AssetImage('assets/images/temp1.jpg');
+    AssetImage placeholderImage = AssetImage('assets/placeholder/placeholder.png');
 
     if (widget.category != null && _categoryImage == null) {
       return FadeInImage(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:eazy_shop/pages/product/products/widgets/product_categories.dart';
 import 'package:eazy_shop/pages/product/products/widgets/products.dart';
+import 'package:eazy_shop/pages/product/products/widgets/shopping_cart_bottomsheet.dart';
 import 'package:eazy_shop/shared_widgets/shopping_cart/shopping_cart_item.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class ProductsPage extends StatelessWidget {
   final _textColor = Colors.grey;
   final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
-  final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+  // final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
   Widget _buildSliverTitle(BuildContext context) {
     return Row(
@@ -202,6 +203,8 @@ class ProductsPage extends StatelessWidget {
   }
 
   Widget _buildShoppingCartFAB({@required BuildContext context}) {
+    final shoppingCart = ShoppingCartBottomSheet(context: context);
+
     return FloatingActionButton(
         isExtended: true,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -211,7 +214,8 @@ class ProductsPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
         ),
         onPressed: () {
-          _openShoppingCartBottomSheet(context: context);
+          shoppingCart.openShoppingCart();
+          // _openShoppingCartBottomSheet(context: context);
           // Navigator.of(context).pushNamed('/shopping-cart');
         });
   }

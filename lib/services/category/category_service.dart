@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eazy_shop/models/category.dart';
+import 'package:eazy_shop/models/timeout.dart';
 import 'package:meta/meta.dart';
 
 class CategoryService {
@@ -14,9 +14,10 @@ class CategoryService {
         .orderBy('lastUpdate')
         .getDocuments()
         .timeout(const Duration(seconds: 30), onTimeout: () {
-      final Map<String, dynamic> timeoutError = {
-        'message': 'Slow internet connection detected! Operation has timed out'
-      };
+      final timeoutError = TimeoutErrorMessage(
+          message:
+              'Slow internet connection detected! Operation has timed out');
+
       throw (timeoutError);
     }).catchError((error) {
       throw (error.message);
@@ -35,9 +36,10 @@ class CategoryService {
       'created': _serverTimestamp,
       'lastUpdate': _serverTimestamp,
     }).timeout(const Duration(seconds: 30), onTimeout: () {
-      final Map<String, dynamic> timeoutError = {
-        'message': 'Slow internet connection detected! Operation has timed out'
-      };
+      final timeoutError = TimeoutErrorMessage(
+          message:
+              'Slow internet connection detected! Operation has timed out');
+
       throw (timeoutError);
     }).catchError((error) {
       throw (error.message);
@@ -49,7 +51,6 @@ class CategoryService {
       @required String title,
       @required String description,
       @required String imageUrl}) {
-        
     if (imageUrl != null) {
       return _db.collection('categories').document(categoryId).setData({
         'title': title,
@@ -57,10 +58,10 @@ class CategoryService {
         'imageUrl': imageUrl,
         'lastUpdate': _serverTimestamp,
       }, merge: true).timeout(const Duration(seconds: 30), onTimeout: () {
-        final Map<String, dynamic> timeoutError = {
-          'message':
-              'Slow internet connection detected! Operation has timed out'
-        };
+        final timeoutError = TimeoutErrorMessage(
+            message:
+                'Slow internet connection detected! Operation has timed out');
+
         throw (timeoutError);
       }).catchError((error) {
         throw (error.message);
@@ -71,10 +72,10 @@ class CategoryService {
         'description': description,
         'lastUpdate': _serverTimestamp,
       }, merge: true).timeout(const Duration(seconds: 30), onTimeout: () {
-        final Map<String, dynamic> timeoutError = {
-          'message':
-              'Slow internet connection detected! Operation has timed out'
-        };
+        final timeoutError = TimeoutErrorMessage(
+            message:
+                'Slow internet connection detected! Operation has timed out');
+
         throw (timeoutError);
       }).catchError((error) {
         throw (error.message);
@@ -88,9 +89,10 @@ class CategoryService {
         .document(categoryId)
         .delete()
         .timeout(const Duration(seconds: 30), onTimeout: () {
-      final Map<String, dynamic> timeoutError = {
-        'message': 'Slow internet connection detected! Operation has timed out'
-      };
+      final timeoutError = TimeoutErrorMessage(
+          message:
+              'Slow internet connection detected! Operation has timed out');
+
       throw (timeoutError);
     }).catchError((error) {
       throw (error.message);

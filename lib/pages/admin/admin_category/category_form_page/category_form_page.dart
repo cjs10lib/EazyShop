@@ -29,14 +29,11 @@ class _CategoryFormPageState extends State<CategoryFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: CategoryForm(
-          categoryFormBloc: _categoryFormBloc,
-          category: widget.category,
-        ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: CategoryForm(
+        categoryFormBloc: _categoryFormBloc,
+        category: widget.category,
       ),
     );
   }
