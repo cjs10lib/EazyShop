@@ -49,8 +49,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         await _categoryImageRepository.deleteCategoryImage(
             categoryId: event.categoryId);
 
-        print('after category image');
-
         // fetch products
         List<Category> categories = await _categoryRepository.fetchCategories();
         yield CategoriesState.success(categories);

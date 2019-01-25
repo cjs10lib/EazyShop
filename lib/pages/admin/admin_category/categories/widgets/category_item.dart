@@ -91,6 +91,7 @@ class CategoryItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(60.0),
                 child: FadeInImage(
+                  fit: BoxFit.cover,
                   image: NetworkImage(category.imageUrl),
                   placeholder: AssetImage('assets/loader/loader.gif'),
                 ),
