@@ -1,9 +1,12 @@
-import 'dart:async';
-
+import 'package:eazy_shop/models/category.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/widgets/gallery_option_bottomsheet.dart';
 import 'package:flutter/material.dart';
 
 class AdminProductForm extends StatefulWidget {
+   final List<Category> categories;
+
+  const AdminProductForm({Key key, @required this.categories}) : super(key: key);
+
   @override
   _AdminProductFormState createState() => _AdminProductFormState();
 }
@@ -13,7 +16,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
-  List<String> _categories = ['Men', 'Women'];
+  // List<String> _categories = ['Men', 'Women'];
 
   String _category;
 
@@ -42,17 +45,17 @@ class _AdminProductFormState extends State<AdminProductForm> {
     );
   }
 
-  Widget _buildCategoryTextField() {
-    return DropdownButton<String>(
+  Widget _buildCategoryDropDownField() {
+    return DropdownButton(
       isExpanded: true,
       hint: Text('Select product category',
           style: TextStyle(
               color: Theme.of(context).primaryColor,
               fontWeight: FontWeight.bold)),
-      items: _categories.map((String category) {
-        return DropdownMenuItem<String>(
-          value: category,
-          child: Text(category,
+      items: widget.categories.map((Category category) {
+        return DropdownMenuItem(
+          value: category.categoryId,
+          child: Text(category.title,
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold)),
@@ -415,7 +418,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold)),
                     Divider(),
-                    _buildCategoryTextField(),
+                    _buildCategoryDropDownField(),
                     SizedBox(height: 20.0),
                     _buildComponentsTextField(),
                     SizedBox(height: 20.0),
