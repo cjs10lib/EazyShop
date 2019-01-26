@@ -52,6 +52,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_designerController.text.isEmpty) {
+          return 'Designer is required';
+        }
+      },
     );
   }
 
@@ -89,6 +94,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_componentsController.text.isEmpty) {
+          return 'Components are required';
+        }
+      },
     );
   }
 
@@ -101,6 +111,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_titleController.text.isEmpty) {
+          return 'Title is required';
+        }
+      },
     );
   }
 
@@ -115,6 +130,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_descriptionController.text.isEmpty) {
+          return 'Description is required';
+        }
+      },
     );
   }
 
@@ -128,6 +148,13 @@ class _AdminProductFormState extends State<AdminProductForm> {
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_priceController.text.isEmpty ||
+            !RegExp(r'^(?:[1-9]\d*|0)?(?:\.\d+)?$')
+                .hasMatch(_priceController.text)) {
+          return 'Designer is required';
+        }
+      },
     );
   }
 
@@ -141,6 +168,13 @@ class _AdminProductFormState extends State<AdminProductForm> {
           labelStyle: TextStyle(color: Theme.of(context).primaryColor),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_quantityController.text.isEmpty ||
+            !RegExp(r'^(?:[1-9]\d*|0)?(?:\d+)?$')
+                .hasMatch(_quantityController.text)) {
+          return 'Quantity is required';
+        }
+      },
     );
   }
 
@@ -157,6 +191,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
               TextStyle(color: _containerColor1, fontWeight: FontWeight.bold),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_sizesController.text.isEmpty) {
+          return 'Sizes are required';
+        }
+      },
     );
   }
 
@@ -171,6 +210,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
           hintStyle: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
           filled: true,
           fillColor: _containerColor1),
+      validator: (String value) {
+        if (_colorsController.text.isEmpty) {
+          return 'Colors are required';
+        }
+      },
     );
   }
 
@@ -180,16 +224,16 @@ class _AdminProductFormState extends State<AdminProductForm> {
       child: Container(
         height: 50.0,
         width: double.infinity,
-        color: _containerColor2,
+        color: Theme.of(context).primaryColor,
         alignment: Alignment.center,
         child: state.isLoading
             ? CircularProgressIndicator()
             : Text(
                 'Save',
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: _textColor,
                     fontSize: 18.0,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w900),
               ),
       ),
     );
@@ -197,6 +241,21 @@ class _AdminProductFormState extends State<AdminProductForm> {
 
   void _submitForm() {
     FocusScope.of(context).requestFocus(FocusNode());
+
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
+    if (_categoryController == null) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Select product category!',
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+          backgroundColor: Theme.of(context).backgroundColor,
+        ),
+      );
+      return;
+    }
 
     List<String> _productSizes = _sizesController.text.trim().split(',');
     List<String> _productColors = _colorsController.text.trim().split(',');
