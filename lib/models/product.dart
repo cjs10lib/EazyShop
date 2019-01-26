@@ -8,9 +8,10 @@ class Product {
   final String title;
   final String description;
   final double price;
-  final List<String> sizes;
-  final List<String> colors;
-  final double quantity;
+  final List<dynamic> sizes;
+  final List<dynamic> colors;
+  final int quantity;
+  final imageUrl;
   final DateTime created;
   final DateTime lastUpdate;
 
@@ -25,6 +26,7 @@ class Product {
       @required this.sizes,
       @required this.colors,
       @required this.quantity,
+      @required this.imageUrl,
       @required this.created,
       @required this.lastUpdate});
 }

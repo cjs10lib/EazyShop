@@ -1,14 +1,13 @@
+import 'package:eazy_shop/models/product.dart';
 import 'package:flutter/material.dart';
 
 class AdminProductItem extends StatelessWidget {
-  final int productIndex;
+  final Product product;
 
-  const AdminProductItem({Key key, @required this.productIndex})
-      : super(key: key);
+  const AdminProductItem({Key key, @required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final _controlColor = Color.fromRGBO(47, 49, 54, 1);
     final Color _textColor = Colors.grey;
     final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
     final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
@@ -46,10 +45,19 @@ class AdminProductItem extends StatelessWidget {
                     Positioned(
                       top: 15.0,
                       left: 15.0,
-                      child: CircleAvatar(
-                        radius: 60.0,
-                        backgroundImage:
-                            AssetImage('assets/images/temp$productIndex.jpg'),
+                      child: Container(
+                        height: 120.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(60.0)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(60.0),
+                          child: FadeInImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(product.imageUrl),
+                            placeholder: AssetImage('assets/loader/loader.gif'),
+                          ),
+                        ),
                       ),
                     )
                   ],
@@ -63,7 +71,7 @@ class AdminProductItem extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('Spray Cans',
+                            Text('${product.title}',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20.0,
@@ -79,7 +87,7 @@ class AdminProductItem extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20.0)),
                                 child: Text(
-                                  '10',
+                                  '${product.quantity.toString()}',
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontSize: 20.0,
@@ -91,7 +99,9 @@ class AdminProductItem extends StatelessWidget {
                         ),
                         SizedBox(height: 10.0),
                         Text(
-                          'Spray can description fhdsghfgsdfi fgfdf fdhsdgfjsdhf',
+                          product.description.length > 50
+                              ? '${product.description.substring(0, 50)}...'
+                              : '${product.description}',
                           softWrap: true,
                           style: TextStyle(
                               color: _textColor, fontWeight: FontWeight.bold),
@@ -101,10 +111,10 @@ class AdminProductItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Text(
-                              '\$38.08',
+                              'GHc ${product.price.toString()}',
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
-                                  fontSize: 19.0,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.bold),
                             ),
                             InkWell(

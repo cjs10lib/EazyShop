@@ -1,4 +1,4 @@
-import 'package:eazy_shop/pages/admin/admin_product/admin_products/widgets/admin_product_item.dart';
+import 'package:eazy_shop/pages/admin/admin_product/admin_products/admin_products_bloc.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_products/widgets/admin_product_list.dart';
 import 'package:flutter/material.dart';
 
@@ -9,32 +9,44 @@ class AdminProductsPage extends StatefulWidget {
 
 class _AdminProductsPageState extends State<AdminProductsPage> {
   final Color _textColor = Colors.grey;
-  final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
-  final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+ 
+  AdminProductsBloc _adminProductsBloc;
+
+  @override
+  initState() {
+    _adminProductsBloc = AdminProductsBloc();
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    _adminProductsBloc.dispose();
+    super.dispose();
+  }
 
   Widget _buildAppBar() {
     return AppBar(
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: _textColor),
-          onPressed: () =>
-              Navigator.of(context).pushReplacementNamed('/products'),
-        ),
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Admin Products',
-          style: TextStyle(color: _textColor),
-        ),
-        bottom: _buildSearchTextField(),
-      );
+      elevation: 0.0,
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, color: _textColor),
+        onPressed: () =>
+            Navigator.of(context).pushReplacementNamed('/products'),
+      ),
+      backgroundColor: Colors.transparent,
+      title: Text(
+        'Admin Products',
+        style: TextStyle(color: _textColor),
+      ),
+      bottom: _buildSearchTextField(),
+    );
   }
 
   Widget _buildSearchTextField() {
     return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
-          child: Container(
+      child: Container(
         padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
         child: TextFormField(
           style: TextStyle(
@@ -78,7 +90,7 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
         onPressed: () => Navigator.of(context).pushNamed('/admin-product-form'),
       ),
       appBar: _buildAppBar(),
-      body: AdminProductList(),
+      body: AdminProductList(adminProductsBloc: _adminProductsBloc),
     );
   }
 }

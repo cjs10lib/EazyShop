@@ -8,6 +8,22 @@ class ProductService {
   final _db = Firestore.instance;
   final _serverTimestamp = FieldValue.serverTimestamp();
 
+  Future<QuerySnapshot> fetchProducts() {
+    return _db
+        .collection('products')
+        .orderBy('lastUpdate', descending: true)
+        .getDocuments()
+        .timeout(const Duration(seconds: 30), onTimeout: () {
+      final timeoutError = TimeoutErrorMessage(
+          message:
+              'Slow internet connection detected! Operation has timed out');
+
+      throw (timeoutError);
+    }).catchError((error) {
+      throw (error.message);
+    });
+  }
+
   Future<void> createProduct(
       {@required String productId,
       @required String designer,

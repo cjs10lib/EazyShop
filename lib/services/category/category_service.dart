@@ -11,7 +11,7 @@ class CategoryService {
   Future<QuerySnapshot> fetchCategories() {
     return _db
         .collection('categories')
-        .orderBy('lastUpdate')
+        .orderBy('lastUpdate', descending: true)
         .getDocuments()
         .timeout(const Duration(seconds: 30), onTimeout: () {
       final timeoutError = TimeoutErrorMessage(

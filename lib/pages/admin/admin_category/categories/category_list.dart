@@ -36,11 +36,13 @@ class CategoryList extends StatelessWidget {
     return BlocBuilder<CategoriesEvent, CategoriesState>(
       bloc: categoriesBloc,
       builder: (BuildContext context, CategoriesState state) {
+       
         if (state.isInitializing) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
+
         if (state.hasError) {
           print(state.error);
           _showErrorSnackbar(context: context, message: state.error);
@@ -51,6 +53,7 @@ class CategoryList extends StatelessWidget {
                     fontWeight: FontWeight.bold)),
           );
         }
+        
         if (state.categories.isEmpty) {
           return Center(
             child: Text(

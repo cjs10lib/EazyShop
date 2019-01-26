@@ -13,12 +13,10 @@ class CategoriesPageState extends State<CategoriesPage> {
   final Color _textColor = Colors.grey;
 
   CategoriesBloc _categoriesBloc;
-  // CategoriesBloc _categoriesBloc = CategoriesBloc();
 
   @override
   initState() {
     _categoriesBloc = CategoriesBloc();
-    // _categoriesBloc.onFetchCategories();
     super.initState();
   }
 
