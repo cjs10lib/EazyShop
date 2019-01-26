@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/widgets/gallery_option_bottomsheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,8 +24,6 @@ class CategoryForm extends StatefulWidget {
 }
 
 class _CategoryFormState extends State<CategoryForm> {
-  final Color _textColor = Colors.grey;
-
   File _categoryImage;
   Map<String, dynamic> _formData = {'title': null, 'description': null};
 
@@ -43,81 +42,24 @@ class _CategoryFormState extends State<CategoryForm> {
     });
   }
 
-  Future _buildGalleryOptionBottomSheet({@required BuildContext context}) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 160.0,
-            color: Theme.of(context).backgroundColor,
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 20.0),
-                Container(
-                  width: 100.0,
-                  height: 5.0,
-                  color: _textColor,
-                ),
-                SizedBox(height: 30.0),
-                InkWell(
-                  onTap: () async {
-                    Navigator.of(context).pop();
-                    await _pickImage(imageSource: ImageSource.camera);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Open Camera',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                InkWell(
-                  onTap: () async {
-                    Navigator.of(context).pop();
-                    await _pickImage(imageSource: ImageSource.gallery);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Open Gallery',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
   Widget _buildPickImageButton() {
+    final galleryBottomsheet =
+        GalleryOptionBottomsheet(context: context, pickImage: _pickImage);
+
     return IconButton(
       icon: Icon(
         Icons.add_a_photo,
         color: Theme.of(context).primaryColor,
         size: 30.0,
       ),
-      onPressed: () {
-        print('addPhoto');
-        _buildGalleryOptionBottomSheet(context: context);
-      },
+      onPressed: galleryBottomsheet.openGalleryOptionBottomSheet,
+      // _buildGalleryOptionBottomSheet(context: context);
     );
   }
 
   Widget _buildCategoryImage() {
-    AssetImage placeholderImage = AssetImage('assets/placeholder/placeholder.png');
+    AssetImage placeholderImage =
+        AssetImage('assets/placeholder/placeholder.png');
 
     if (widget.category != null && _categoryImage == null) {
       return FadeInImage(
@@ -128,15 +70,8 @@ class _CategoryFormState extends State<CategoryForm> {
       return _categoryImage != null
           ? Image.file(_categoryImage, fit: BoxFit.cover)
           : Image.asset('assets/placeholder/placeholder.png',
-              fit: BoxFit.cover);
+              fit: BoxFit.cover, height: double.infinity,);
     }
-  }
-
-  Widget _buildImageContainer() {
-    return Container(
-      height: 200.0,
-      child: _buildCategoryImage(),
-    );
   }
 
   Widget _buildTitleTextField({@required TextStyle textStyle}) {
@@ -205,6 +140,9 @@ class _CategoryFormState extends State<CategoryForm> {
 
   void _submitForm() {
     FocusScope.of(context).requestFocus(FocusNode());
+     final galleryBottomsheet =
+        GalleryOptionBottomsheet(context: context, pickImage: _pickImage);
+
 
     if (!_formKey.currentState.validate()) {
       return;
@@ -230,7 +168,7 @@ class _CategoryFormState extends State<CategoryForm> {
             backgroundColor: Theme.of(context).backgroundColor,
             action: SnackBarAction(
               label: 'Select Image',
-              onPressed: () => _buildGalleryOptionBottomSheet(context: context),
+              onPressed: galleryBottomsheet.openGalleryOptionBottomSheet,
             ),
           ),
         );
@@ -264,9 +202,7 @@ class _CategoryFormState extends State<CategoryForm> {
             // ),
             actions: <Widget>[_buildPickImageButton()],
             expandedHeight: 350.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: _buildImageContainer(),
-            ),
+            flexibleSpace: _buildCategoryImage(),
           ),
           SliverList(
             delegate: SliverChildListDelegate([

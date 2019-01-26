@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:eazy_shop/models/category.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_bloc.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_event.dart';
@@ -5,6 +8,7 @@ import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_pro
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/widgets/gallery_option_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:multi_media_picker/multi_media_picker.dart';
 
 class ProductColorNSize {
   final String name;
@@ -42,6 +46,35 @@ class _AdminProductFormState extends State<AdminProductForm> {
   final _quantityController = TextEditingController();
 
   String _categoryController;
+  File _productImage;
+
+  Future _pickImage({@required ImageSource imageSource}) async {
+    var images = await MultiMediaPicker.pickImages(
+        source: imageSource, singleImage: true, maxHeight: 350.0);
+
+    setState(() {
+      if (images != null) {
+        _productImage = images[0];
+        print(_productImage);
+      }
+    });
+  }
+
+  Widget _buildProductImage() {
+    // AssetImage placeholderImage =
+    //     AssetImage('assets/placeholder/placeholder.png');
+
+    // if (widget.category != null && _categoryImage == null) {
+    //   return FadeInImage(
+    //       image: NetworkImage(widget.category.imageUrl),
+    //       placeholder: placeholderImage,
+    //       fit: BoxFit.cover);
+    // } else {
+    return _productImage != null
+        ? Image.file(_productImage, fit: BoxFit.cover)
+        : Image.asset('assets/placeholder/placeholder.png', fit: BoxFit.cover);
+    // }
+  }
 
   Widget _buildDesignerTextField() {
     return TextFormField(
@@ -288,7 +321,8 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildSliverAppBar() {
-    final galleryBottomsheet = GalleryOptionBottomsheet(context: context);
+    final galleryBottomsheet =
+        GalleryOptionBottomsheet(context: context, pickImage: _pickImage);
 
     return SliverAppBar(
       pinned: true,
@@ -304,19 +338,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
             color: Theme.of(context).primaryColor,
             size: 30.0,
           ),
-          onPressed: () => galleryBottomsheet.openGalleryOptionBottomSheet(),
+          onPressed: galleryBottomsheet.openGalleryOptionBottomSheet,
         )
       ],
       expandedHeight: 250.0,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/temp2.jpg'),
-              fit: BoxFit.cover,
-              colorFilter:
-                  ColorFilter.mode(Color(0xA0000000), BlendMode.multiply)),
-        ),
-      ),
+      flexibleSpace: _buildProductImage(),
+      // flexibleSpace: FlexibleSpaceBar(background: _buildImageContainer()),
     );
   }
 

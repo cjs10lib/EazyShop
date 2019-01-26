@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:multi_media_picker/multi_media_picker.dart';
 
 class GalleryOptionBottomsheet {
   final BuildContext context;
   final Color _textColor = Colors.grey;
+  final Function pickImage;
 
-  GalleryOptionBottomsheet({@required this.context});
+  GalleryOptionBottomsheet({@required this.context, @required this.pickImage});
 
   Future openGalleryOptionBottomSheet() {
     return showModalBottomSheet(
@@ -24,30 +26,42 @@ class GalleryOptionBottomsheet {
                   color: _textColor,
                 ),
                 SizedBox(height: 30.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Open Camera',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    pickImage(imageSource: ImageSource.camera);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Open Camera',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Open Gallery',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    pickImage(imageSource: ImageSource.gallery);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Open Gallery',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
