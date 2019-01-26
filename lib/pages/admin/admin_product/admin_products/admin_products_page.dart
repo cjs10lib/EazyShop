@@ -1,4 +1,5 @@
 import 'package:eazy_shop/pages/admin/admin_product/admin_products/widgets/admin_product_item.dart';
+import 'package:eazy_shop/pages/admin/admin_product/admin_products/widgets/admin_product_list.dart';
 import 'package:flutter/material.dart';
 
 class AdminProductsPage extends StatefulWidget {
@@ -11,6 +12,24 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
   final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
   final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+
+  Widget _buildAppBar() {
+    return AppBar(
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: _textColor),
+          onPressed: () =>
+              Navigator.of(context).pushReplacementNamed('/products'),
+        ),
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'Admin Products',
+          style: TextStyle(color: _textColor),
+        ),
+        bottom: _buildSearchTextField(),
+      );
+  }
 
   Widget _buildSearchTextField() {
     return PreferredSize(
@@ -58,29 +77,8 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
         ),
         onPressed: () => Navigator.of(context).pushNamed('/admin-product-form'),
       ),
-      appBar: AppBar(
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: _textColor),
-          onPressed: () =>
-              Navigator.of(context).pushReplacementNamed('/products'),
-        ),
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Admin Products',
-          style: TextStyle(color: _textColor),
-        ),
-        bottom: _buildSearchTextField(),
-      ),
-      body: ListView.builder(
-        itemCount: 9,
-        itemBuilder: (BuildContext context, int index) {
-          return AdminProductItem(
-            productIndex: index,
-          );
-        },
-      ),
+      appBar: _buildAppBar(),
+      body: AdminProductList(),
     );
   }
 }
