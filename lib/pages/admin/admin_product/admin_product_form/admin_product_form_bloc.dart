@@ -20,6 +20,8 @@ class AdminProductFormBloc
       @required String title,
       @required String description,
       @required double price,
+      @required List<String> sizes,
+      @required List<String> colors,
       @required int quantity}) {
     dispatch(CreateProduct(
       designer: designer,
@@ -28,6 +30,8 @@ class AdminProductFormBloc
       title: title,
       description: description,
       price: price,
+      sizes: sizes,
+      colors: colors,
       quantity: quantity,
     ));
   }
@@ -50,6 +54,8 @@ class AdminProductFormBloc
           title: event.title,
           description: event.description,
           price: event.price,
+          sizes: event.sizes,
+          colors: event.colors,
           quantity: event.quantity,
         );
         print(productId);

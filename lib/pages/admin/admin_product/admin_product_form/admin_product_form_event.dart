@@ -9,6 +9,8 @@ class CreateProduct extends AdminProductFormEvent {
   final String title;
   final String description;
   final double price;
+  final List<String> sizes;
+  final List<String> colors;
   final int quantity;
 
   CreateProduct(
@@ -18,6 +20,8 @@ class CreateProduct extends AdminProductFormEvent {
       @required this.title,
       @required this.description,
       @required this.price,
+      @required this.sizes,
+      @required this.colors,
       @required this.quantity});
 }
 

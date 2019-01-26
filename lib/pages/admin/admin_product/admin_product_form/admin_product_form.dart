@@ -6,6 +6,13 @@ import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/widgets/g
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+class ProductColorNSize {
+  final String name;
+  final bool value;
+
+  ProductColorNSize({@required this.name, @required this.value});
+}
+
 class AdminProductForm extends StatefulWidget {
   final List<Category> categories;
   final AdminProductFormBloc productFormBloc;
@@ -30,23 +37,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
+  final _sizesController = TextEditingController();
+  final _colorsController = TextEditingController();
   final _quantityController = TextEditingController();
 
-  String _category;
-
-  // SIZES
-  bool sizeXXXL = false;
-  bool sizeXXL = false;
-  bool sizeXL = false;
-  bool sizeL = false;
-  bool sizeM = false;
-
-  // COLORS
-  bool colorBLACK = false;
-  bool colorWHITE = false;
-  bool colorGREY = false;
-  bool colorRED = false;
-  bool colorOTHER = false;
+  String _categoryController;
 
   Widget _buildDesignerTextField() {
     return TextFormField(
@@ -76,10 +71,10 @@ class _AdminProductFormState extends State<AdminProductForm> {
                   fontWeight: FontWeight.bold)),
         );
       }).toList(),
-      value: _category,
+      value: _categoryController,
       onChanged: (String value) {
         setState(() {
-          _category = value;
+          _categoryController = value;
         });
       },
     );
@@ -149,215 +144,33 @@ class _AdminProductFormState extends State<AdminProductForm> {
     );
   }
 
-  Widget _buildSizeXXXLCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: sizeXXXL,
-        activeColor: Theme.of(context).primaryColor,
-        title: Text('XXX-Large',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            sizeXXXL = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildSizeXXLCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: sizeXXL,
-        activeColor: Theme.of(context).primaryColor,
-        title: Text('XX-Large',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            sizeXXL = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildSizeXLCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: sizeXL,
-        activeColor: Theme.of(context).primaryColor,
-        title: Text('X-Large',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            sizeXL = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildSizeLCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: sizeL,
-        activeColor: Theme.of(context).primaryColor,
-        title: Text('Large',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            sizeL = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildSizeMCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: sizeM,
-        activeColor: Theme.of(context).primaryColor,
-        title: Text('Medium',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            sizeM = value;
-          });
-        },
-      ),
-    );
-  }
-
   Widget _buildProductSizes() {
-    return Container(
-      height: 150.0,
-      child: ListView(
-        physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          _buildSizeXXXLCheckBox(context: context),
-          _buildSizeXXLCheckBox(context: context),
-          _buildSizeXLCheckBox(context: context),
-          _buildSizeLCheckBox(context: context),
-          _buildSizeMCheckBox(context: context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildColorBlackCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: colorBLACK,
-        activeColor: Colors.black,
-        title: Text('BLACK',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            colorBLACK = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildColorWhiteCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: colorWHITE,
-        activeColor: Colors.white,
-        title: Text('WHITE',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            colorWHITE = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildColorGreyCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: colorGREY,
-        activeColor: Colors.grey,
-        title: Text('GREY',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            colorGREY = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildColorRedCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: colorRED,
-        activeColor: Colors.red,
-        title: Text('RED',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            colorRED = value;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildColorOtherCheckBox({@required BuildContext context}) {
-    return Container(
-      child: CheckboxListTile(
-        value: colorOTHER,
-        activeColor: Theme.of(context).primaryColor,
-        title: Text('OTHER',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold)),
-        onChanged: (bool value) {
-          setState(() {
-            colorOTHER = value;
-          });
-        },
-      ),
+    return TextFormField(
+      // keyboardType: TextInputType.number,
+      controller: _sizesController,
+      style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
+      decoration: InputDecoration(
+          labelText: 'Product Sizes',
+          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+          hintText: 'Enter product sizes [e.g. Large, Xtra-Large.]',
+          hintStyle:
+              TextStyle(color: _containerColor1, fontWeight: FontWeight.bold),
+          filled: true,
+          fillColor: _containerColor1),
     );
   }
 
   Widget _buildProductColors() {
-    return Container(
-      height: 150.0,
-      child: ListView(
-        physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          _buildColorBlackCheckBox(context: context),
-          _buildColorWhiteCheckBox(context: context),
-          _buildColorGreyCheckBox(context: context),
-          _buildColorRedCheckBox(context: context),
-          _buildColorOtherCheckBox(context: context),
-        ],
-      ),
+    return TextFormField(
+      controller: _colorsController,
+      style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
+      decoration: InputDecoration(
+          labelText: 'Product Colors',
+          labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+          hintText: 'Enter product colors [e.g. Red, Blue.]',
+          hintStyle: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
+          filled: true,
+          fillColor: _containerColor1),
     );
   }
 
@@ -385,26 +198,33 @@ class _AdminProductFormState extends State<AdminProductForm> {
   void _submitForm() {
     FocusScope.of(context).requestFocus(FocusNode());
 
+    List<String> _productSizes = _sizesController.text.trim().split(',');
+    List<String> _productColors = _colorsController.text.trim().split(',');
+
     _formKey.currentState.save();
 
     widget.productFormBloc.onCreateProduct(
       designer: _designerController.text,
-      category: _category,
+      category: _categoryController,
       components: _componentsController.text,
       title: _titleController.text,
       description: _descriptionController.text,
       price: double.parse(_priceController.text),
+      sizes: _productSizes,
+      colors: _productColors,
       quantity: int.parse(_quantityController.text),
     );
   }
 
   void _resetForm() {
     _designerController.text = '';
-    _category = null;
+    _categoryController = null;
     _componentsController.text = '';
     _titleController.text = '';
     _descriptionController.text = '';
     _priceController.text = '';
+    _sizesController.text = '';
+    _colorsController.text = '';
     _quantityController.text = '';
   }
 
@@ -496,6 +316,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
                 Divider(),
                 _buildProductColors(),
                 SizedBox(height: 20.0),
+                Text('Quantity',
+                    style: TextStyle(
+                        color: _textColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                Divider(),
                 _buildQTYTextField(),
                 SizedBox(height: 20.0),
                 _buildProductFormControl(state: state)

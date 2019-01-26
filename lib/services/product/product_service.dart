@@ -9,13 +9,15 @@ class ProductService {
   final _serverTimestamp = FieldValue.serverTimestamp();
 
   Future<DocumentReference> createProduct(
-      {@required designer,
-      @required category,
-      @required components,
-      @required title,
-      @required description,
-      @required price,
-      @required quantity}) {
+      {@required String designer,
+      @required String category,
+      @required String components,
+      @required String title,
+      @required String description,
+      @required double price,
+      @required List<String> sizes,
+      @required List<String> colors,
+      @required int quantity}) {
     return _db.collection('products').add({
       'designer': designer,
       'category': category,
@@ -23,6 +25,8 @@ class ProductService {
       'title': title,
       'description': description,
       'price': price,
+      'sizes': sizes,
+      'colors': colors,
       'quantity': quantity,
       'created': _serverTimestamp,
       'lastUpdate': _serverTimestamp

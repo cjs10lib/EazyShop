@@ -8,13 +8,15 @@ class ProductRepository {
   final _productService = ProductService();
 
   Future<String> createProduct(
-      {@required designer,
-      @required category,
-      @required components,
-      @required title,
-      @required description,
-      @required price,
-      @required quantity}) async {
+      {@required String designer,
+      @required String category,
+      @required String components,
+      @required String title,
+      @required String description,
+      @required double price,
+      @required List<String> sizes,
+      @required List<String> colors,
+      @required int quantity}) async {
     try {
       DocumentReference documentReference = await _productService.createProduct(
           designer: designer,
@@ -23,6 +25,8 @@ class ProductRepository {
           title: title,
           description: description,
           price: price,
+          sizes: sizes,
+          colors: colors,
           quantity: quantity);
 
       print(documentReference.documentID);
