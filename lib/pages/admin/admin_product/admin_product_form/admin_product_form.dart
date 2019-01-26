@@ -272,21 +272,41 @@ class _AdminProductFormState extends State<AdminProductForm> {
     );
   }
 
+  void _buildValidationSnackBar({@required String message, Function action}) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$message',
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+        backgroundColor: Theme.of(context).backgroundColor,
+        action: action != null
+            ? SnackBarAction(
+                label: 'Select Image',
+                onPressed: action,
+              )
+            : null,
+      ),
+    );
+  }
+
   void _submitForm() {
     FocusScope.of(context).requestFocus(FocusNode());
+
+    final galleryBottomsheet =
+        GalleryOptionBottomsheet(context: context, pickImage: _pickImage);
 
     if (!_formKey.currentState.validate()) {
       return;
     }
 
     if (_categoryController == null) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Select product category!',
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-          backgroundColor: Theme.of(context).backgroundColor,
-        ),
-      );
+      _buildValidationSnackBar(message: 'Select product category!');
+      return;
+    }
+
+    if (_productImage == null) {
+      _buildValidationSnackBar(
+          message: 'Select product image!',
+          action: galleryBottomsheet.openGalleryOptionBottomSheet);
       return;
     }
 
@@ -296,16 +316,16 @@ class _AdminProductFormState extends State<AdminProductForm> {
     _formKey.currentState.save();
 
     widget.productFormBloc.onCreateProduct(
-      designer: _designerController.text,
-      category: _categoryController,
-      components: _componentsController.text,
-      title: _titleController.text,
-      description: _descriptionController.text,
-      price: double.parse(_priceController.text),
-      sizes: _productSizes,
-      colors: _productColors,
-      quantity: int.parse(_quantityController.text),
-    );
+        designer: _designerController.text,
+        category: _categoryController,
+        components: _componentsController.text,
+        title: _titleController.text,
+        description: _descriptionController.text,
+        price: double.parse(_priceController.text),
+        sizes: _productSizes,
+        colors: _productColors,
+        quantity: int.parse(_quantityController.text),
+        image: _productImage);
   }
 
   void _resetForm() {
@@ -318,6 +338,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
     _sizesController.text = '';
     _colorsController.text = '';
     _quantityController.text = '';
+    _productImage = null;
   }
 
   Widget _buildSliverAppBar() {

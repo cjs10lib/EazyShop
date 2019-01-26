@@ -8,6 +8,8 @@ class Product {
   final String title;
   final String description;
   final double price;
+  final List<String> sizes;
+  final List<String> colors;
   final double quantity;
   final DateTime created;
   final DateTime lastUpdate;
@@ -20,6 +22,8 @@ class Product {
       @required this.title,
       @required this.description,
       @required this.price,
+      @required this.sizes,
+      @required this.colors,
       @required this.quantity,
       @required this.created,
       @required this.lastUpdate});

@@ -7,8 +7,9 @@ import 'package:meta/meta.dart';
 class ProductRepository {
   final _productService = ProductService();
 
-  Future<String> createProduct(
-      {@required String designer,
+  Future<void> createProduct(
+      {@required String productId,
+      @required String designer,
       @required String category,
       @required String components,
       @required String title,
@@ -16,9 +17,11 @@ class ProductRepository {
       @required double price,
       @required List<String> sizes,
       @required List<String> colors,
-      @required int quantity}) async {
+      @required int quantity,
+      @required String imageUrl}) async {
     try {
-      DocumentReference documentReference = await _productService.createProduct(
+      return await _productService.createProduct(
+          productId: productId,
           designer: designer,
           category: category,
           components: components,
@@ -27,10 +30,8 @@ class ProductRepository {
           price: price,
           sizes: sizes,
           colors: colors,
-          quantity: quantity);
-
-      print(documentReference.documentID);
-      return documentReference.documentID;
+          quantity: quantity,
+          imageUrl: imageUrl);
     } catch (error) {
       throw (error.toString());
     }

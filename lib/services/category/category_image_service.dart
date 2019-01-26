@@ -24,7 +24,7 @@ class CategoryImageService {
         categoryImage,
         StorageMetadata(
           contentLanguage: 'en',
-          customMetadata: <String, String>{'activity': 'Bank-App'},
+          customMetadata: <String, String>{'activity': 'EazyStore-App'},
         ),
       );
       final String downloadUrl =

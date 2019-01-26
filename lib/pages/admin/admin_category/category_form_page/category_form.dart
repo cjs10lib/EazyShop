@@ -53,7 +53,6 @@ class _CategoryFormState extends State<CategoryForm> {
         size: 30.0,
       ),
       onPressed: galleryBottomsheet.openGalleryOptionBottomSheet,
-      // _buildGalleryOptionBottomSheet(context: context);
     );
   }
 
@@ -162,7 +161,7 @@ class _CategoryFormState extends State<CategoryForm> {
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'No image selected! Select category image.',
+              'Select category image!',
               style: TextStyle(color: Colors.red),
             ),
             backgroundColor: Theme.of(context).backgroundColor,

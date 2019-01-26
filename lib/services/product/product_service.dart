@@ -8,8 +8,9 @@ class ProductService {
   final _db = Firestore.instance;
   final _serverTimestamp = FieldValue.serverTimestamp();
 
-  Future<DocumentReference> createProduct(
-      {@required String designer,
+  Future<void> createProduct(
+      {@required String productId,
+      @required String designer,
       @required String category,
       @required String components,
       @required String title,
@@ -17,8 +18,9 @@ class ProductService {
       @required double price,
       @required List<String> sizes,
       @required List<String> colors,
-      @required int quantity}) {
-    return _db.collection('products').add({
+      @required int quantity,
+      @required String imageUrl}) {
+    return _db.collection('products').document(productId).setData({
       'designer': designer,
       'category': category,
       'components': components,
@@ -28,6 +30,7 @@ class ProductService {
       'sizes': sizes,
       'colors': colors,
       'quantity': quantity,
+      'imageUrl': imageUrl,
       'created': _serverTimestamp,
       'lastUpdate': _serverTimestamp
     }).timeout(const Duration(seconds: 30), onTimeout: () {

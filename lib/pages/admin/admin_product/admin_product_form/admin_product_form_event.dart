@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:meta/meta.dart';
 
 abstract class AdminProductFormEvent {}
 
 class CreateProduct extends AdminProductFormEvent {
+  final File image;
   final String designer;
   final String category;
   final String components;
@@ -14,7 +17,8 @@ class CreateProduct extends AdminProductFormEvent {
   final int quantity;
 
   CreateProduct(
-      {@required this.designer,
+      {@required this.image,
+      @required this.designer,
       @required this.category,
       @required this.components,
       @required this.title,
