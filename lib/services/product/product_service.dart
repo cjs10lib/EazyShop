@@ -59,4 +59,20 @@ class ProductService {
       throw (error.message);
     });
   }
+
+  Future<void> deleteProduct({@required String productId}) {
+    return _db
+        .collection('products')
+        .document(productId)
+        .delete()
+        .timeout(const Duration(seconds: 30), onTimeout: () {
+      final timeoutError = TimeoutErrorMessage(
+          message:
+              'Slow internet connection detected! Operation has timed out');
+
+      throw (timeoutError);
+    }).catchError((error) {
+      throw (error.message);
+    });
+  }
 }

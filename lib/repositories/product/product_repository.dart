@@ -72,4 +72,12 @@ class ProductRepository {
       throw (error.toString());
     }
   }
+
+  Future<void> deleteProduct({@required String productId}) async {
+    try {
+      return await _productService.deleteProduct(productId: productId);
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
 }
