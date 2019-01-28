@@ -28,6 +28,10 @@ class AdminProductList extends StatelessWidget {
     });
   }
 
+  void _deleteProduct({@required productId}) {
+    adminProductsBloc.onDeleteProduct(productId: productId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AdminProductsEvent, AdminProductsState>(
@@ -67,6 +71,7 @@ class AdminProductList extends StatelessWidget {
 
             return AdminProductItem(
               product: product,
+              deleteProduct: _deleteProduct,
             );
           },
         );

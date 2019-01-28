@@ -14,20 +14,37 @@ class CategoriesState {
       @required this.error});
 
   factory CategoriesState.initial() {
-    return CategoriesState(isInitializing: true, categories: [], hasError: false, error: '');
+    return CategoriesState(
+      isInitializing: true,
+      categories: [],
+      hasError: false,
+      error: '',
+    );
   }
 
   factory CategoriesState.success(List<Category> categories) {
     return CategoriesState(
-        isInitializing: false, categories: categories, hasError: false, error: '');
+      isInitializing: false,
+      categories: categories,
+      hasError: false,
+      error: '',
+    );
   }
 
   factory CategoriesState.failure(String error) {
-    return CategoriesState(isInitializing: false, categories: [], hasError: true, error: error);
+    return CategoriesState(
+      isInitializing: false,
+      categories: [],
+      hasError: true,
+      error: error,
+    );
   }
 
   CategoriesState copyWith(
-      {bool isInitializing, List<Category> categories, bool hasError, String error}) {
+      {bool isInitializing,
+      List<Category> categories,
+      bool hasError,
+      String error}) {
     return CategoriesState(
       isInitializing: isInitializing ?? this.isInitializing,
       categories: categories ?? this.categories,
