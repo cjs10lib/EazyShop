@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:eazy_shop/models/category.dart';
+import 'package:eazy_shop/models/product.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_bloc.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_event.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_state.dart';
@@ -10,19 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_media_picker/multi_media_picker.dart';
 
-class ProductColorNSize {
-  final String name;
-  final bool value;
-
-  ProductColorNSize({@required this.name, @required this.value});
-}
-
 class AdminProductForm extends StatefulWidget {
   final List<Category> categories;
   final AdminProductFormBloc productFormBloc;
-
-  const AdminProductForm(
-      {Key key, @required this.categories, @required this.productFormBloc})
+  final Product product;
+  AdminProductForm(
+      {Key key,
+      @required this.categories,
+      @required this.productFormBloc,
+      this.product})
       : super(key: key);
 
   @override
@@ -32,7 +29,7 @@ class AdminProductForm extends StatefulWidget {
 class _AdminProductFormState extends State<AdminProductForm> {
   final Color _textColor = Colors.grey;
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
-  final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+  // final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -48,6 +45,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
   String _categoryController;
   File _productImage;
 
+  final Map<String, List<String>> _mapString = {
+    "[": [''],
+    "]": ['']
+  };
+
   Future _pickImage({@required ImageSource imageSource}) async {
     var images = await MultiMediaPicker.pickImages(
         source: imageSource, singleImage: true, maxHeight: 350.0);
@@ -61,22 +63,29 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildProductImage() {
-    // AssetImage placeholderImage =
-    //     AssetImage('assets/placeholder/placeholder.png');
+    AssetImage placeholderImage =
+        AssetImage('assets/placeholder/placeholder.png');
 
-    // if (widget.category != null && _categoryImage == null) {
-    //   return FadeInImage(
-    //       image: NetworkImage(widget.category.imageUrl),
-    //       placeholder: placeholderImage,
-    //       fit: BoxFit.cover);
-    // } else {
-    return _productImage != null
-        ? Image.file(_productImage, fit: BoxFit.cover)
-        : Image.asset('assets/placeholder/placeholder.png', fit: BoxFit.cover);
-    // }
+    if (widget.product != null && _productImage == null) {
+      return FadeInImage(
+          image: NetworkImage(widget.product.imageUrl),
+          placeholder: placeholderImage,
+          fit: BoxFit.cover);
+    } else {
+      return _productImage != null
+          ? Image.file(_productImage, fit: BoxFit.cover)
+          : Image.asset('assets/placeholder/placeholder.png',
+              fit: BoxFit.cover);
+    }
   }
 
   Widget _buildDesignerTextField() {
+    if (widget.product != null) {
+      _designerController.text = widget.product.designer;
+    } else {
+      _designerController.text = '';
+    }
+
     return TextFormField(
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
       controller: _designerController,
@@ -94,6 +103,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildCategoryDropDownField() {
+    if (widget.product != null && widget.categories.isNotEmpty) {
+      _categoryController = widget.product.category;
+    } else {
+      _categoryController = null;
+    }
+
     return DropdownButton(
       isExpanded: true,
       hint: Text('Select product category',
@@ -119,6 +134,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildComponentsTextField() {
+    if (widget.product != null) {
+      _componentsController.text = widget.product.components;
+    } else {
+      _componentsController.text = '';
+    }
+
     return TextFormField(
       controller: _componentsController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
@@ -136,6 +157,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildTitleTextField({@required BuildContext context}) {
+    if (widget.product != null) {
+      _titleController.text = widget.product.title;
+    } else {
+      _titleController.text = '';
+    }
+
     return TextFormField(
       controller: _titleController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
@@ -153,6 +180,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildDescriptionTextField({@required BuildContext context}) {
+    if (widget.product != null) {
+      _descriptionController.text = widget.product.description;
+    } else {
+      _descriptionController.text = '';
+    }
+
     return TextFormField(
       maxLines: 3,
       keyboardType: TextInputType.multiline,
@@ -172,6 +205,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildPriceTextField({@required BuildContext context}) {
+    if (widget.product != null) {
+      _priceController.text = widget.product.price.toString();
+    } else {
+      _priceController.text = '';
+    }
+
     return TextFormField(
       keyboardType: TextInputType.number,
       controller: _priceController,
@@ -192,6 +231,12 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildQTYTextField() {
+    if (widget.product != null) {
+      _quantityController.text = widget.product.quantity.toString();
+    } else {
+      _quantityController.text = '';
+    }
+
     return TextFormField(
       keyboardType: TextInputType.number,
       controller: _quantityController,
@@ -212,8 +257,20 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildProductSizes() {
+    if (widget.product != null) {
+      String sizeString = widget.product.sizes.toString();
+
+      _mapString.forEach((key, mapping) {
+        sizeString = sizeString.replaceFirst(key, mapping[0]);
+        sizeString = sizeString.replaceFirst(key, mapping[0]);
+      });
+
+      _sizesController.text = sizeString;
+    } else {
+      _sizesController.text = '';
+    }
+
     return TextFormField(
-      // keyboardType: TextInputType.number,
       controller: _sizesController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
@@ -233,6 +290,19 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildProductColors() {
+    if (widget.product != null) {
+      String colorString = widget.product.colors.toString();
+
+      _mapString.forEach((key, mapping) {
+        colorString = colorString.replaceFirst(key, mapping[0]);
+        colorString = colorString.replaceFirst(key, mapping[0]);
+      });
+
+      _colorsController.text = colorString;
+    } else {
+      _colorsController.text = '';
+    }
+
     return TextFormField(
       controller: _colorsController,
       style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),

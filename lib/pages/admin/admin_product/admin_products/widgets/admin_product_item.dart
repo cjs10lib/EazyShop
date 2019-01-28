@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:eazy_shop/models/action_constants.dart';
 import 'package:eazy_shop/models/product.dart';
+import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_page.dart';
 import 'package:eazy_shop/pages/product/product_details/product_details_page.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,14 @@ class AdminProductItem extends StatelessWidget {
     }
 
     Future _choiceAction(String action) async {
-      if (action == AdminConstants.Delete) {
+      if (action == AdminConstants.Update) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AdminProductFormPage(product: product)),
+        );
+      } else if (action == AdminConstants.Delete) {
         await _openDeleteConfirmationDialog();
       }
     }
@@ -101,14 +109,16 @@ class AdminProductItem extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-              product.title.length > 14
-                  ? '${product.title.substring(0, 11)}...'
-                  : '${product.title}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
+          Expanded(
+            child: Text(
+                product.title.length > 20
+                    ? '${product.title.substring(0, 20)}...'
+                    : '${product.title}',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold)),
+          ),
           Row(
             children: <Widget>[
               Material(
