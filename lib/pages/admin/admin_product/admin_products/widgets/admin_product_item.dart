@@ -1,3 +1,4 @@
+import 'package:eazy_shop/models/action_constants.dart';
 import 'package:eazy_shop/models/product.dart';
 import 'package:eazy_shop/pages/product/product_details/product_details_page.dart';
 import 'package:flutter/material.dart';
@@ -52,33 +53,55 @@ class AdminProductItem extends StatelessWidget {
     );
   }
 
+  void _choiceAction(String choice) {
+    print(choice);
+  }
+
   Widget _buildProductTitleRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text('${product.title}',
+        Text(
+            product.title.length > 14
+                ? '${product.title.substring(0, 11)}...'
+                : '${product.title}',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold)),
-        Material(
-          elevation: 2.0,
-          color: _containerColor1,
-          borderRadius: BorderRadius.circular(20.0),
-          child: Container(
-            height: 40.0,
-            width: 40.0,
-            alignment: Alignment.center,
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-            child: Text(
-              '${product.quantity.toString()}',
-              style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w900),
+        Row(
+          children: <Widget>[
+            Material(
+              elevation: 2.0,
+              color: _containerColor1,
+              borderRadius: BorderRadius.circular(20.0),
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                alignment: Alignment.center,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                child: Text(
+                  '${product.quantity.toString()}',
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w900),
+                ),
+              ),
             ),
-          ),
+            PopupMenuButton<String>(
+              onSelected: _choiceAction,
+              itemBuilder: (BuildContext context) {
+                return AdminConstants.actions.map((String action) {
+                  return PopupMenuItem<String>(
+                    child: Text(action),
+                    value: action,
+                  );
+                }).toList();
+              },
+            )
+          ],
         ),
       ],
     );
@@ -140,7 +163,7 @@ class AdminProductItem extends StatelessWidget {
       elevation: 1.0,
       child: Container(
         color: _cardColor,
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[

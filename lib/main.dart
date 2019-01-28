@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         '/products': (BuildContext context) => ProductsPage(),
         '/category': (BuildContext context) => CategoriesPage(),
         '/category-form': (BuildContext context) => CategoryFormPage(),
-        '/product': (BuildContext context) => ProductDetailsPage(),
+        // '/product': (BuildContext context) => ProductDetailsPage(),
         '/checkout': (BuildContext context) => CheckOutPage(),
         '/admin-products': (BuildContext context) => AdminProductsPage(),
         '/admin-product-form': (BuildContext context) => AdminProductFormPage(),
