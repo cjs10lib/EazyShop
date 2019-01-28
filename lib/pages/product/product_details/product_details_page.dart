@@ -1,11 +1,11 @@
+import 'package:eazy_shop/models/product.dart';
 import 'package:eazy_shop/pages/product/product_details/widgets/product_details.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsPage extends StatelessWidget {
-  // final _textColor = Colors.grey;
-  // final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
-  // final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
-  // final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+  final Product product;
+
+  const ProductDetailsPage({Key key, @required this.product}) : super(key: key);
 
   Widget _buildDrawerToggle({@required BuildContext context}) {
     return IconButton(
@@ -30,15 +30,13 @@ class ProductDetailsPage extends StatelessWidget {
   }
 
   Widget _buildFlexibleSpaceBarImage() {
-    return FlexibleSpaceBar(
-      background: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/temp1.jpg'),
-                fit: BoxFit.cover,
-                colorFilter:
-                    ColorFilter.mode(Color(0xA0000000), BlendMode.multiply))),
-      ),
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+              colorFilter:
+                  ColorFilter.mode(Color(0xA0000000), BlendMode.multiply))),
     );
   }
 
@@ -51,8 +49,8 @@ class ProductDetailsPage extends StatelessWidget {
           SliverAppBar(
             centerTitle: true,
             pinned: true,
-            floating: true,
-            snap: true,
+            // floating: true,
+            // snap: true,
             expandedHeight: 500.0,
             backgroundColor: Theme.of(context).backgroundColor,
             leading: _buildDrawerToggle(context: context),
@@ -63,7 +61,7 @@ class ProductDetailsPage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              ProductDetails(),
+              ProductDetails(product: product),
             ]),
           )
         ],

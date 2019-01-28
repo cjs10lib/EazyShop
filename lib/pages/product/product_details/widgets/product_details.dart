@@ -1,10 +1,26 @@
+import 'package:eazy_shop/models/product.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends StatefulWidget {
+  final Product product;
+
+  const ProductDetails({Key key, @required this.product}) : super(key: key);
+
+  @override
+  ProductDetailsState createState() {
+    return new ProductDetailsState();
+  }
+}
+
+class ProductDetailsState extends State<ProductDetails> {
   final _textColor = Colors.grey;
-  final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
-  final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
-  final Color _containerColor2 = Color.fromRGBO(54, 57, 63, 1);
+
+  final Color _cardColor = const Color.fromRGBO(42, 44, 49, 1);
+  final Color _containerColor1 = const Color.fromRGBO(47, 49, 54, 1);
+  final Color _containerColor2 = const Color.fromRGBO(54, 57, 63, 1);
+
+  String _productSize;
+  String _productColor;
 
   Widget _buildProductTitleRow(BuildContext context) {
     return Row(
@@ -13,24 +29,24 @@ class ProductDetails extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Jim&Jill Designs',
+            Text('${widget.product.designer}',
                 style: TextStyle(
                     color: Colors.white30, fontWeight: FontWeight.w900)),
-            Text('Grey Stripped Suit',
+            Text('${widget.product.title}',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 22.0,
                     fontWeight: FontWeight.w900)),
-            Text('MEN: (SUIT)',
+            Text('${widget.product.category}',
                 style:
                     TextStyle(color: _textColor, fontWeight: FontWeight.bold)),
           ],
         ),
         Text(
-          '\$38.08',
+          '${widget.product.price}',
           style: TextStyle(
               color: Theme.of(context).primaryColor,
-              fontSize: 30.0,
+              fontSize: 25.0,
               fontWeight: FontWeight.bold),
         ),
       ],
@@ -39,49 +55,71 @@ class ProductDetails extends StatelessWidget {
 
   Widget _buildProductSizeRow() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Icon(
-          Icons.format_size,
-          color: _textColor,
-        ),
+        Icon(Icons.format_size, color: _textColor, size: 30.0),
         SizedBox(width: 10.0),
-        Text(
-          'M, L, XL',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        )
+        Container(
+          width: 150.0,
+          child: DropdownButtonFormField(
+            decoration: InputDecoration.collapsed(
+                hintText: '',
+                border: UnderlineInputBorder(borderSide: BorderSide.none)),
+            hint: Text('Select size',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold)),
+            value: _productSize,
+            items: widget.product.sizes.map((dynamic size) {
+              return DropdownMenuItem(
+                value: size.toString().trim(),
+                child: Text(size.toString().trim(),
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold)),
+              );
+            }).toList(),
+            onChanged: (String value) {
+              setState(() {
+                _productSize = value;
+              });
+            },
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildProductColorRow() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Icon(
-          Icons.format_color_fill,
-          color: _textColor,
-        ),
+        Icon(Icons.format_color_fill, color: _textColor, size: 30.0),
         SizedBox(width: 10.0),
         Container(
-          height: 20.0,
-          width: 20.0,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
-        ),
-        SizedBox(width: 10.0),
-        Container(
-          height: 20.0,
-          width: 20.0,
-          decoration: BoxDecoration(
-              color: Colors.black, borderRadius: BorderRadius.circular(10.0)),
-        ),
-        SizedBox(width: 10.0),
-        Container(
-          height: 20.0,
-          width: 20.0,
-          decoration: BoxDecoration(
-              color: Colors.red, borderRadius: BorderRadius.circular(10.0)),
+          width: 150.0,
+          child: DropdownButtonFormField(
+            decoration: InputDecoration.collapsed(
+                hintText: '',
+                border: UnderlineInputBorder(borderSide: BorderSide.none)),
+            hint: Text('Select color',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold)),
+            value: _productColor,
+            items: widget.product.colors.map((dynamic color) {
+              return DropdownMenuItem(
+                value: color.toString().trim(),
+                child: Text(color.toString().trim(),
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold)),
+              );
+            }).toList(),
+            onChanged: (String value) {
+              setState(() {
+                _productColor = value;
+              });
+            },
+          ),
         ),
       ],
     );
@@ -97,7 +135,7 @@ class ProductDetails extends StatelessWidget {
         ),
         SizedBox(width: 10.0),
         Text(
-          'Cotton',
+          '${widget.product.components}',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ],
@@ -122,8 +160,9 @@ class ProductDetails extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Text(
-            'The Grey Stripped Suit is a classic model of wear, which will fit any chic and elegant, person. Created by the Armany group.',
+            '${widget.product.description}',
             softWrap: true,
+            textAlign: TextAlign.justify,
             style:
                 TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
           ),
@@ -224,6 +263,17 @@ class ProductDetails extends StatelessWidget {
                 SizedBox(height: 20.0),
                 _buildProductParameters(),
                 SizedBox(height: 30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Description',
+                        style: TextStyle(
+                            color: _textColor,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
+                Divider(),
                 _buildProductDescription(),
                 SizedBox(height: 30.0),
                 _buildTerms(),

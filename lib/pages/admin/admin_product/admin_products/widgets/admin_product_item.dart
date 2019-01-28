@@ -1,4 +1,5 @@
 import 'package:eazy_shop/models/product.dart';
+import 'package:eazy_shop/pages/product/product_details/product_details_page.dart';
 import 'package:flutter/material.dart';
 
 class AdminProductItem extends StatelessWidget {
@@ -106,7 +107,14 @@ class AdminProductItem extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed('/product');
+            // Navigator.of(context).pushNamed('/product');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ProductDetailsPage(product: product),
+              ),
+            );
           },
           child: Material(
             elevation: 2.0,
