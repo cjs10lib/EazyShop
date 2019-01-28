@@ -332,7 +332,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
         child: state.isLoading
             ? CircularProgressIndicator()
             : Text(
-                'Save',
+                widget.product != null ? 'Update' : 'Save',
                 style: TextStyle(
                     color: _textColor,
                     fontSize: 18.0,

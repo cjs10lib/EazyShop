@@ -10,7 +10,7 @@ class AdminProductsPage extends StatefulWidget {
 class _AdminProductsPageState extends State<AdminProductsPage> {
   final Color _textColor = Colors.grey;
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
- 
+
   AdminProductsBloc _adminProductsBloc;
 
   @override
@@ -79,18 +79,22 @@ class _AdminProductsPageState extends State<AdminProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Add Products',
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).primaryColor,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        floatingActionButton: FloatingActionButton(
+          tooltip: 'Add Products',
+          child: Icon(
+            Icons.add,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () =>
+              Navigator.of(context).pushNamed('/admin-product-form'),
         ),
-        onPressed: () => Navigator.of(context).pushNamed('/admin-product-form'),
+        appBar: _buildAppBar(),
+        body: AdminProductList(adminProductsBloc: _adminProductsBloc),
       ),
-      appBar: _buildAppBar(),
-      body: AdminProductList(adminProductsBloc: _adminProductsBloc),
     );
   }
 }
