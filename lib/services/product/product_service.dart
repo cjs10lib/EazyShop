@@ -60,6 +60,41 @@ class ProductService {
     });
   }
 
+  Future<void> updateProduct(
+      {@required String productId,
+      @required String designer,
+      @required String category,
+      @required String components,
+      @required String title,
+      @required String description,
+      @required double price,
+      @required List<String> sizes,
+      @required List<String> colors,
+      @required int quantity,
+      @required String imageUrl}) {
+    return _db.collection('products').document(productId).setData({
+      'designer': designer,
+      'category': category,
+      'components': components,
+      'title': title,
+      'description': description,
+      'price': price,
+      'sizes': sizes,
+      'colors': colors,
+      'quantity': quantity,
+      'imageUrl': imageUrl,
+      'lastUpdate': _serverTimestamp
+    }).timeout(const Duration(seconds: 30), onTimeout: () {
+      final timeoutError = TimeoutErrorMessage(
+          message:
+              'Slow internet connection detected! Operation has timed out');
+
+      throw (timeoutError);
+    }).catchError((error) {
+      throw (error.message);
+    });
+  }
+
   Future<void> deleteProduct({@required String productId}) {
     return _db
         .collection('products')

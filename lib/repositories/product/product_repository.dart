@@ -73,6 +73,36 @@ class ProductRepository {
     }
   }
 
+  Future<void> updateProduct(
+      {@required String productId,
+      @required String designer,
+      @required String category,
+      @required String components,
+      @required String title,
+      @required String description,
+      @required double price,
+      @required List<String> sizes,
+      @required List<String> colors,
+      @required int quantity,
+      @required String imageUrl}) async {
+    try {
+      return await _productService.updateProduct(
+          productId: productId,
+          designer: designer,
+          category: category,
+          components: components,
+          title: title,
+          description: description,
+          price: price,
+          sizes: sizes,
+          colors: colors,
+          quantity: quantity,
+          imageUrl: imageUrl);
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
+
   Future<void> deleteProduct({@required String productId}) async {
     try {
       return await _productService.deleteProduct(productId: productId);
