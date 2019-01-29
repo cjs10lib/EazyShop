@@ -72,27 +72,50 @@ class ProductService {
       @required List<String> colors,
       @required int quantity,
       @required String imageUrl}) {
-    return _db.collection('products').document(productId).setData({
-      'designer': designer,
-      'category': category,
-      'components': components,
-      'title': title,
-      'description': description,
-      'price': price,
-      'sizes': sizes,
-      'colors': colors,
-      'quantity': quantity,
-      'imageUrl': imageUrl,
-      'lastUpdate': _serverTimestamp
-    }).timeout(const Duration(seconds: 30), onTimeout: () {
-      final timeoutError = TimeoutErrorMessage(
-          message:
-              'Slow internet connection detected! Operation has timed out');
+    if (imageUrl != null) {
+      return _db.collection('products').document(productId).setData({
+        'designer': designer,
+        'category': category,
+        'components': components,
+        'title': title,
+        'description': description,
+        'price': price,
+        'sizes': sizes,
+        'colors': colors,
+        'quantity': quantity,
+        'imageUrl': imageUrl,
+        'lastUpdate': _serverTimestamp
+      }).timeout(const Duration(seconds: 30), onTimeout: () {
+        final timeoutError = TimeoutErrorMessage(
+            message:
+                'Slow internet connection detected! Operation has timed out');
 
-      throw (timeoutError);
-    }).catchError((error) {
-      throw (error.message);
-    });
+        throw (timeoutError);
+      }).catchError((error) {
+        throw (error.message);
+      });
+    } else {
+      return _db.collection('products').document(productId).setData({
+        'designer': designer,
+        'category': category,
+        'components': components,
+        'title': title,
+        'description': description,
+        'price': price,
+        'sizes': sizes,
+        'colors': colors,
+        'quantity': quantity,
+        'lastUpdate': _serverTimestamp
+      }, merge: true).timeout(const Duration(seconds: 30), onTimeout: () {
+        final timeoutError = TimeoutErrorMessage(
+            message:
+                'Slow internet connection detected! Operation has timed out');
+
+        throw (timeoutError);
+      }).catchError((error) {
+        throw (error.message);
+      });
+    }
   }
 
   Future<void> deleteProduct({@required String productId}) {

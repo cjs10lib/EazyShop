@@ -29,6 +29,7 @@ class _CategoryFormPageState extends State<CategoryFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('category page');
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: CategoryForm(

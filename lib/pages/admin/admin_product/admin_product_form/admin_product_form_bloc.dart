@@ -45,6 +45,33 @@ class AdminProductFormBloc
     dispatch(CreatedProduct());
   }
 
+  void onUpdateProduct(
+      {@required String productId,
+      @required File image,
+      @required String designer,
+      @required String category,
+      @required String components,
+      @required String title,
+      @required String description,
+      @required double price,
+      @required List<String> sizes,
+      @required List<String> colors,
+      @required int quantity}) {
+    dispatch(UpdateProduct(
+      productId: productId,
+      image: image,
+      designer: designer,
+      category: category,
+      components: components,
+      title: title,
+      description: description,
+      price: price,
+      sizes: sizes,
+      colors: colors,
+      quantity: quantity,
+    ));
+  }
+
   @override
   Stream<AdminProductFormState> mapEventToState(
       AdminProductFormState currentState, AdminProductFormEvent event) async* {
@@ -80,6 +107,43 @@ class AdminProductFormBloc
 
     if (event is CreatedProduct) {
       yield AdminProductFormState.initial();
+    }
+
+    if (event is UpdateProduct) {
+      yield AdminProductFormState.loading();
+      Map<String, dynamic> _productImage;
+      print(event.image.toString());
+
+      try {
+        if (event.image != null) {
+          // delete image
+          await _productImageRepository.deleteProductImage(
+              productId: event.productId);
+
+          // create new image
+          _productImage = await _productImageRepository.createProductImage(
+              productImage: event.image, productId: event.productId);
+        }
+
+        await _productRepository.updateProduct(
+            productId: event.productId,
+            designer: event.designer,
+            category: event.category,
+            components: event.components,
+            title: event.title,
+            description: event.description,
+            price: event.price,
+            sizes: event.sizes,
+            colors: event.colors,
+            quantity: event.quantity,
+            imageUrl: _productImage != null
+              ? _productImage['downloadUrl']
+              : null,);
+
+        yield AdminProductFormState.success(event.productId);
+      } catch (error) {
+        yield AdminProductFormState.failure(error.toString());
+      }
     }
   }
 }

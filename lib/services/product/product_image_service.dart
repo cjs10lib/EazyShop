@@ -35,4 +35,17 @@ class ProductImageService {
       throw (error.message);
     }
   }
+
+  Future<void> deleteProductImage({@required String productId}) {
+    final String productImageId = productId;
+    final String fileName = '$_storageDirectory$productImageId.jpg';
+    final StorageReference ref = _storage.ref().child(fileName);
+
+    try {
+      return ref.delete();
+    } catch (error) {
+      print('product image delete error ${error.message}');
+      throw (error.message);
+    }
+  }
 }

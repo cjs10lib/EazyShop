@@ -20,4 +20,12 @@ class ProductImageRepository {
       throw (error.toString());
     }
   }
+
+  Future<void> deleteProductImage({@required String productId}) async {
+    try {
+      return await _productImageService.deleteProductImage(productId: productId);
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
 }

@@ -30,3 +30,30 @@ class CreateProduct extends AdminProductFormEvent {
 }
 
 class CreatedProduct extends AdminProductFormEvent {}
+
+class UpdateProduct extends AdminProductFormEvent {
+  final String productId;
+  final File image;
+  final String designer;
+  final String category;
+  final String components;
+  final String title;
+  final String description;
+  final double price;
+  final List<String> sizes;
+  final List<String> colors;
+  final int quantity;
+
+  UpdateProduct(
+      {@required this.productId,
+      @required this.image,
+      @required this.designer,
+      @required this.category,
+      @required this.components,
+      @required this.title,
+      @required this.description,
+      @required this.price,
+      @required this.sizes,
+      @required this.colors,
+      @required this.quantity});
+}

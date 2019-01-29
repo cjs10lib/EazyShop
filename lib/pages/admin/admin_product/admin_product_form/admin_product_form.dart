@@ -7,19 +7,16 @@ import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_pro
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_event.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/admin_product_form_state.dart';
 import 'package:eazy_shop/pages/admin/admin_product/admin_product_form/widgets/gallery_option_bottomsheet.dart';
+import 'package:eazy_shop/repositories/category/category_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_media_picker/multi_media_picker.dart';
 
 class AdminProductForm extends StatefulWidget {
-  final List<Category> categories;
   final AdminProductFormBloc productFormBloc;
   final Product product;
-  AdminProductForm(
-      {Key key,
-      @required this.categories,
-      @required this.productFormBloc,
-      this.product})
+  const AdminProductForm(
+      {Key key, @required this.productFormBloc, this.product})
       : super(key: key);
 
   @override
@@ -49,6 +46,26 @@ class _AdminProductFormState extends State<AdminProductForm> {
     "[": [''],
     "]": ['']
   };
+
+  CategoryRepository _categoryRepository;
+  List<Category> _categories = [];
+
+  @override
+  void initState() {
+    _categoryRepository = CategoryRepository();
+
+    _categoryRepository.fetchCategories().then((List<Category> categories) {
+      setState(() {
+        _categories = categories;
+
+        if (widget.product != null) {
+          _categoryController = widget.product.category;
+        }
+      });
+    });
+
+    super.initState();
+  }
 
   Future _pickImage({@required ImageSource imageSource}) async {
     var images = await MultiMediaPicker.pickImages(
@@ -103,19 +120,13 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildCategoryDropDownField() {
-    if (widget.product != null && widget.categories.isNotEmpty) {
-      _categoryController = widget.product.category;
-    } else {
-      _categoryController = null;
-    }
-
     return DropdownButton(
       isExpanded: true,
       hint: Text('Select product category',
           style: TextStyle(
               color: Theme.of(context).primaryColor,
               fontWeight: FontWeight.bold)),
-      items: widget.categories.map((Category category) {
+      items: _categories.map((Category category) {
         return DropdownMenuItem(
           value: category.categoryId,
           child: Text(category.title,
@@ -373,29 +384,44 @@ class _AdminProductFormState extends State<AdminProductForm> {
       return;
     }
 
-    if (_productImage == null) {
-      _buildValidationSnackBar(
-          message: 'Select product image!',
-          action: galleryBottomsheet.openGalleryOptionBottomSheet);
-      return;
-    }
-
     List<String> _productSizes = _sizesController.text.trim().split(',');
     List<String> _productColors = _colorsController.text.trim().split(',');
 
     _formKey.currentState.save();
 
-    widget.productFormBloc.onCreateProduct(
-        designer: _designerController.text,
-        category: _categoryController,
-        components: _componentsController.text,
-        title: _titleController.text,
-        description: _descriptionController.text,
-        price: double.parse(_priceController.text),
-        sizes: _productSizes,
-        colors: _productColors,
-        quantity: int.parse(_quantityController.text),
-        image: _productImage);
+    if (widget.product != null) {
+      widget.productFormBloc.onUpdateProduct(
+          productId: widget.product.productId,
+          designer: _designerController.text,
+          category: _categoryController,
+          components: _componentsController.text,
+          title: _titleController.text,
+          description: _descriptionController.text,
+          price: double.parse(_priceController.text),
+          sizes: _productSizes,
+          colors: _productColors,
+          quantity: int.parse(_quantityController.text),
+          image: _productImage != null ? _productImage : null);
+    } else {
+      if (_productImage == null) {
+        _buildValidationSnackBar(
+            message: 'Select product image!',
+            action: galleryBottomsheet.openGalleryOptionBottomSheet);
+        return;
+      }
+
+      widget.productFormBloc.onCreateProduct(
+          designer: _designerController.text,
+          category: _categoryController,
+          components: _componentsController.text,
+          title: _titleController.text,
+          description: _descriptionController.text,
+          price: double.parse(_priceController.text),
+          sizes: _productSizes,
+          colors: _productColors,
+          quantity: int.parse(_quantityController.text),
+          image: _productImage);
+    }
   }
 
   void _resetForm() {
@@ -516,11 +542,11 @@ class _AdminProductFormState extends State<AdminProductForm> {
     });
   }
 
-  // void _navigateToCategories() {
-  //   _onWidgetDidBuild(() {
-  //     Navigator.of(context).pop();
-  //   });
-  // }
+  void _navigateToProducts() {
+    _onWidgetDidBuild(() {
+      Navigator.of(context).pop();
+    });
+  }
 
   bool _productSaveSuccess(AdminProductFormState state) =>
       state.productId.isNotEmpty;
@@ -558,23 +584,21 @@ class _AdminProductFormState extends State<AdminProductForm> {
           widget.productFormBloc.onCreatedProduct();
           _feedbackSnackbar(message: {
             'success': true,
-            'details': 'product successfully saved.'
+            'details': 'Product successfully saved.'
           });
 
           // reset form
           _resetForm();
-          // _formKey.currentState.reset();
-          // _productImage = null;
 
-          // if (widget.product != null) {
-          //   _navigateToCategories();
-          // }
+          if (widget.product != null) {
+            _navigateToProducts();
+          }
 
-          // if (widget.product == null) {
-          //   // reset form
-          //   _formKey.currentState.reset();
-          //   _productImage = null;
-          // }
+          if (widget.product == null) {
+            // reset form
+            _formKey.currentState.reset();
+            _productImage = null;
+          }
         }
 
         if (_productSaveFailure(state)) {
