@@ -174,7 +174,7 @@ class AdminProductItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Text(
-            'GHc ${product.price.toString()}',
+            'GHc${product.price}',
             style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontSize: 16.0,

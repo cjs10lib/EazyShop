@@ -1,12 +1,34 @@
+import 'package:eazy_shop/pages/admin/admin_product/admin_products/admin_products_bloc.dart';
 import 'package:eazy_shop/pages/product/products/widgets/product_categories.dart';
-import 'package:eazy_shop/pages/product/products/widgets/products.dart';
+import 'package:eazy_shop/pages/product/products/widgets/product_list.dart';
 import 'package:eazy_shop/pages/product/products/widgets/shopping_cart_bottomsheet.dart';
 import 'package:eazy_shop/pages/product/products/widgets/side_drawer.dart';
 import 'package:flutter/material.dart';
 
-class ProductsPage extends StatelessWidget {
+class ProductsPage extends StatefulWidget {
+  @override
+  ProductsPageState createState() {
+    return new ProductsPageState();
+  }
+}
+
+class ProductsPageState extends State<ProductsPage> {
   final _textColor = Colors.grey;
   final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
+
+  AdminProductsBloc _productsBloc;
+
+  @override
+  initState() {
+    _productsBloc = AdminProductsBloc();
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    _productsBloc.dispose();
+    super.dispose();
+  }
 
   Widget _buildSliverTitle(BuildContext context) {
     return Row(
@@ -125,10 +147,8 @@ class ProductsPage extends StatelessWidget {
               ],
               bottom: _buildAppBarBottom(),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Products(),
-              ]),
+            SliverToBoxAdapter(
+              child: ProductList(productsBloc: _productsBloc),
             )
           ],
         ),
