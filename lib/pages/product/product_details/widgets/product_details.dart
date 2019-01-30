@@ -37,7 +37,7 @@ class ProductDetailsState extends State<ProductDetails> {
                     color: Colors.white,
                     fontSize: 22.0,
                     fontWeight: FontWeight.w900)),
-            Text('${widget.product.category}',
+            Text('${widget.product.categoryName}',
                 style:
                     TextStyle(color: _textColor, fontWeight: FontWeight.bold)),
           ],

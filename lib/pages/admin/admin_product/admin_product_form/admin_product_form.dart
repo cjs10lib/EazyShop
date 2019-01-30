@@ -59,7 +59,7 @@ class _AdminProductFormState extends State<AdminProductForm> {
         _categories = categories;
 
         if (widget.product != null) {
-          _categoryController = widget.product.category;
+          _categoryController = widget.product.categoryId;
         }
       });
     });
@@ -120,27 +120,29 @@ class _AdminProductFormState extends State<AdminProductForm> {
   }
 
   Widget _buildCategoryDropDownField() {
-    return DropdownButton(
-      isExpanded: true,
-      hint: Text('Select product category',
-          style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.bold)),
-      items: _categories.map((Category category) {
-        return DropdownMenuItem(
-          value: category.categoryId,
-          child: Text(category.title,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold)),
-        );
-      }).toList(),
-      value: _categoryController,
-      onChanged: (String value) {
-        setState(() {
-          _categoryController = value;
-        });
-      },
+    return DropdownButtonHideUnderline(
+      child: DropdownButton(
+        isExpanded: true,
+        hint: Text('Select product category',
+            style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold)),
+        items: _categories.map((Category category) {
+          return DropdownMenuItem(
+            value: category.categoryId,
+            child: Text(category.title,
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold)),
+          );
+        }).toList(),
+        value: _categoryController,
+        onChanged: (String value) {
+          setState(() {
+            _categoryController = value;
+          });
+        },
+      ),
     );
   }
 
@@ -387,13 +389,17 @@ class _AdminProductFormState extends State<AdminProductForm> {
     List<String> _productSizes = _sizesController.text.trim().split(',');
     List<String> _productColors = _colorsController.text.trim().split(',');
 
+    final Category _selectedCategory = _categories.firstWhere(
+        (Category category) => category.categoryId == _categoryController);
+
     _formKey.currentState.save();
 
     if (widget.product != null) {
       widget.productFormBloc.onUpdateProduct(
           productId: widget.product.productId,
           designer: _designerController.text,
-          category: _categoryController,
+          categoryId: _selectedCategory.categoryId,
+          categoryName: _selectedCategory.title,
           components: _componentsController.text,
           title: _titleController.text,
           description: _descriptionController.text,
@@ -412,7 +418,8 @@ class _AdminProductFormState extends State<AdminProductForm> {
 
       widget.productFormBloc.onCreateProduct(
           designer: _designerController.text,
-          category: _categoryController,
+          categoryId: _selectedCategory.categoryId,
+          categoryName: _selectedCategory.title,
           components: _componentsController.text,
           title: _titleController.text,
           description: _descriptionController.text,

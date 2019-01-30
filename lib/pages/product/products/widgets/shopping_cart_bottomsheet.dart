@@ -9,10 +9,8 @@ class ShoppingCartBottomSheet {
 
   ShoppingCartBottomSheet({@required this.context});
 
-  final _controlColor = Color.fromRGBO(47, 49, 54, 1);
   final _textColor = Colors.grey;
   final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
-  final Color _containerColor1 = Color.fromRGBO(47, 49, 54, 1);
 
   Widget _buildShoppingCartBottomSheetHeader() {
     return PreferredSize(

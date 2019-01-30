@@ -7,7 +7,8 @@ abstract class AdminProductFormEvent {}
 class CreateProduct extends AdminProductFormEvent {
   final File image;
   final String designer;
-  final String category;
+  final String categoryId;
+  final String categoryName;
   final String components;
   final String title;
   final String description;
@@ -19,7 +20,8 @@ class CreateProduct extends AdminProductFormEvent {
   CreateProduct(
       {@required this.image,
       @required this.designer,
-      @required this.category,
+      @required this.categoryId,
+      @required this.categoryName,
       @required this.components,
       @required this.title,
       @required this.description,
@@ -35,7 +37,8 @@ class UpdateProduct extends AdminProductFormEvent {
   final String productId;
   final File image;
   final String designer;
-  final String category;
+  final String categoryId;
+  final String categoryName;
   final String components;
   final String title;
   final String description;
@@ -48,7 +51,8 @@ class UpdateProduct extends AdminProductFormEvent {
       {@required this.productId,
       @required this.image,
       @required this.designer,
-      @required this.category,
+      @required this.categoryId,
+      @required this.categoryName,
       @required this.components,
       @required this.title,
       @required this.description,

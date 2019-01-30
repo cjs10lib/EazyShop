@@ -21,7 +21,8 @@ class ProductRepository {
         final product = Product(
           productId: document.documentID,
           designer: productData['designer'],
-          category: productData['category'],
+          categoryId: productData['categoryId'],
+          categoryName: productData['categoryName'],
           components: productData['components'],
           title: productData['title'],
           description: productData['description'],
@@ -46,7 +47,8 @@ class ProductRepository {
   Future<void> createProduct(
       {@required String productId,
       @required String designer,
-      @required String category,
+      @required String categoryId,
+      @required String categoryName,
       @required String components,
       @required String title,
       @required String description,
@@ -59,7 +61,8 @@ class ProductRepository {
       return await _productService.createProduct(
           productId: productId,
           designer: designer,
-          category: category,
+          categoryId: categoryId,
+          categoryName: categoryName,
           components: components,
           title: title,
           description: description,
@@ -76,7 +79,8 @@ class ProductRepository {
   Future<void> updateProduct(
       {@required String productId,
       @required String designer,
-      @required String category,
+      @required String categoryId,
+      @required String categoryName,
       @required String components,
       @required String title,
       @required String description,
@@ -89,7 +93,8 @@ class ProductRepository {
       return await _productService.updateProduct(
           productId: productId,
           designer: designer,
-          category: category,
+          categoryId: categoryId,
+          categoryName: categoryName,
           components: components,
           title: title,
           description: description,

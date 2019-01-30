@@ -27,7 +27,8 @@ class ProductService {
   Future<void> createProduct(
       {@required String productId,
       @required String designer,
-      @required String category,
+      @required String categoryId,
+      @required String categoryName,
       @required String components,
       @required String title,
       @required String description,
@@ -38,7 +39,8 @@ class ProductService {
       @required String imageUrl}) {
     return _db.collection('products').document(productId).setData({
       'designer': designer,
-      'category': category,
+      'categoryId': categoryId,
+      'categoryName': categoryName,
       'components': components,
       'title': title,
       'description': description,
@@ -63,7 +65,8 @@ class ProductService {
   Future<void> updateProduct(
       {@required String productId,
       @required String designer,
-      @required String category,
+      @required String categoryId,
+      @required String categoryName,
       @required String components,
       @required String title,
       @required String description,
@@ -75,7 +78,8 @@ class ProductService {
     if (imageUrl != null) {
       return _db.collection('products').document(productId).setData({
         'designer': designer,
-        'category': category,
+        'categoryId': categoryId,
+        'categoryName': categoryName,
         'components': components,
         'title': title,
         'description': description,
@@ -97,7 +101,8 @@ class ProductService {
     } else {
       return _db.collection('products').document(productId).setData({
         'designer': designer,
-        'category': category,
+        'categoryId': categoryId,
+        'categoryName': categoryName,
         'components': components,
         'title': title,
         'description': description,

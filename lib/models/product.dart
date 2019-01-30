@@ -3,7 +3,8 @@ import 'package:meta/meta.dart';
 class Product {
   final String productId;
   final String designer;
-  final String category;
+  final String categoryId;
+  final String categoryName;
   final String components;
   final String title;
   final String description;
@@ -18,7 +19,8 @@ class Product {
   Product(
       {@required this.productId,
       @required this.designer,
-      @required this.category,
+      @required this.categoryId,
+      @required this.categoryName,
       @required this.components,
       @required this.title,
       @required this.description,
