@@ -182,7 +182,6 @@ class AdminProductItem extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // Navigator.of(context).pushNamed('/product');
               Navigator.push(
                 context,
                 MaterialPageRoute(
