@@ -587,17 +587,13 @@ class _AdminProductFormState extends State<AdminProductForm> {
             'details': 'Product successfully saved.'
           });
 
-          // reset form
-          _resetForm();
-
           if (widget.product != null) {
             _navigateToProducts();
           }
 
           if (widget.product == null) {
             // reset form
-            _formKey.currentState.reset();
-            _productImage = null;
+            _resetForm();
           }
         }
 
