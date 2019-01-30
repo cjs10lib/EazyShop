@@ -1,12 +1,12 @@
 import 'package:eazy_shop/models/auth.dart';
 import 'package:flutter/material.dart';
 
-class AuthPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _AuthPageState createState() => _AuthPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _LoginPageState extends State<LoginPage> {
   final _controlColor = Color.fromRGBO(47, 49, 54, 1);
   final _textColor = Colors.grey;
   final Color _cardColor = Color.fromRGBO(42, 44, 49, 1);
