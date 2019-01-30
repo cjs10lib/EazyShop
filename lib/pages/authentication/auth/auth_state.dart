@@ -20,13 +20,13 @@ class AuthState {
     );
   }
 
-  factory AuthState.loading() {
-    return AuthState(
-      isInitializing: false,
-      isAuthenticated: false,
-      isLoading: true,
-    );
-  }
+  // factory AuthState.loading() {
+  //   return AuthState(
+  //     isInitializing: false,
+  //     isAuthenticated: false,
+  //     isLoading: true,
+  //   );
+  // }
 
   factory AuthState.authenticated() {
     return AuthState(
